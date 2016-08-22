@@ -29,3 +29,7 @@ a {
 .panel, .panel-group .panel-heading+.panel-collapse>.panel-body{
     border: none;
 }
+
+button {
+    margin: 15px;
+}

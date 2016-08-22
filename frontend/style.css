@@ -8,8 +8,22 @@ p {
 }
 
 div.account {
+    
+}
+
+.panel-default > .panel-heading {
     margin: 15px;
     border-radius: 15px;
     width: 50%;
     background-color: rgb(194, 194, 214);
+    border: none;
+}
+
+
+a {
+    text-decoration: none;
+}
+
+.panel, .panel-group .panel-heading+.panel-collapse>.panel-body{
+    border: none;
 }

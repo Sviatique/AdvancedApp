@@ -17,13 +17,19 @@ function($scope) {
             name: 'Bob',
             email: 'Bob@gmail.com',
             login: 'bob123',
-            avatarUrl: 'http://ultraimg.com/images/2016/07/29/Simplest-Responsive-jQuery-Image-Lightbox-Plugin-simple-lightbox.jpg'
+            avatarUrl: 'http://ultraimg.com/images/2016/07/29/Simplest-Responsive-jQuery-Image-Lightbox-Plugin-simple-lightbox.jpg',
+            age: 25,
+            gender: 'Male',
+            phoneNumber: 9379992
         },
         '1': {
             name: 'Ivan',
             email: 'Ivan@mail.ru',
             login: 'Ivan321',
-            avatarUrl: 'https://3.bp.blogspot.com/-W__wiaHUjwI/Vt3Grd8df0I/AAAAAAAAA78/7xqUNj8ujtY/s1600/image02.png'
+            avatarUrl: 'https://3.bp.blogspot.com/-W__wiaHUjwI/Vt3Grd8df0I/AAAAAAAAA78/7xqUNj8ujtY/s1600/image02.png',
+            age: 37,
+            gender: 'Male',
+            phoneNumber: 2802938
         }
     };
     $scope.accounts = accounts;

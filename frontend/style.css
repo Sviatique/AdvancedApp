@@ -1,0 +1,15 @@
+img {
+    max-height: 100px;
+    max-width: 100px;
+}
+
+p {
+    padding : 10px;
+}
+
+div.account {
+    margin: 15px;
+    border-radius: 15px;
+    width: 50%;
+    background-color: rgb(194, 194, 214);
+}

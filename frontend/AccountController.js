@@ -1,13 +1,6 @@
-function AccountController($scope) {
-   $scope.clock = {
-        now: new Date()
-    };
-    const updateClock = () => {
-        $scope.clock.now = new Date()
-    };
-    setInterval(() => {
-        $scope.$apply(updateClock);
-    }, 1000);
-    updateClock();
-
-};
+app.controller('AccountController', function($scope, AccountsManagement){
+    AccountsManagement.getAccounts().then((accounts) => {
+        $scope.accounts = accounts.data;
+    });
+    
+});

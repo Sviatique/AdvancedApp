@@ -33,3 +33,12 @@ a {
 button {
     margin: 15px;
 }
+
+div#newAcc > * {
+    display: block;
+    margin-bottom: 10px;
+}
+
+div#newAcc > .ng-invalid {
+    border-color: red;
+}

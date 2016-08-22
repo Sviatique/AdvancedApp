@@ -19,7 +19,9 @@ div.account {
     border: none;
 }
 
-
+.ng-cloak {
+    display: none !important;
+}
 a {
     text-decoration: none;
 }

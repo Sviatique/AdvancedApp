@@ -9,8 +9,9 @@
     </head>
     <body>
         <div ng-controller='AccountController'>
-            <div class="account" ng-repeat="person in accounts">
+            <div class="account" ng-repeat="(id,person) in accounts">
                 <img src={{person.avatarUrl}}> </img>
+                <p> Id: {{id}} </p>
                 <p> Name: {{person.name}}</p>
                 <p> Email: {{person.email}}</p>
                 <p> Login: {{person.login}}</p>

@@ -19,7 +19,7 @@ const AccountController = ($scope, $mdDialog, AccountService) => {
     };
 
     AccountService.getAccounts().then(accounts => {
-        $scope.messages = [];
+        
         $scope.accounts = accounts.data;
     });
 };

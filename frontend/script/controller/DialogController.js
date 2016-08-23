@@ -1,6 +1,7 @@
 'use strict';
 
 const DialogController = function($scope, $mdDialog){
+    $scope.messages = [];
     $scope.answer = function(answer) {
         $mdDialog.hide(answer);
     };

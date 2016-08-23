@@ -10,16 +10,15 @@ const AccountController = ($scope, $mdDialog, AccountService) => {
             locals: {messages: $scope.messages}
 
         })
-        .then(function(answer) {
-            $scope.status = 'You said the information was "' + answer + '".';
+        .then(function(data) {
+            console.log(data);
         }, function() {
-            $scope.status = 'You cancelled the dialog.';
+            console.log('You cancelled the dialog.');
         });
 
     };
 
     AccountService.getAccounts().then(accounts => {
-        
         $scope.accounts = accounts.data;
     });
 };

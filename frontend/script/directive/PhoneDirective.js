@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('App').directive('phoneDirective', function(){
+const phoneDirective = function(){
     return {
     require: 'ngModel',
     link: function(scope, element, attr, AccountController) {
@@ -25,4 +25,6 @@ angular.module('App').directive('phoneDirective', function(){
       AccountController.$parsers.push(phoneValidation);
     }
   };
-});
+};
+
+angular.module('App').directive('phoneDirective', phoneDirective);

@@ -1,9 +1,29 @@
 'use strict';
 
 const DialogController = function($scope, $mdDialog){
+    $scope.valid = false;
     $scope.messages = [];
-    $scope.answer = function(answer) {
-        $mdDialog.hide(answer);
+    $scope.name = "";
+    $scope.age = 18;
+    $scope.gender = "Male";
+    $scope.phone = "";
+    $scope.mail = "";
+    $scope.login = "";
+
+    $scope.submit = function() {
+        if($scope.messages.length != 0){
+            return;
+        }
+        const data = {
+            name: $scope.name,
+            age: $scope.age,
+            gender: $scope.gender,
+            phone: $scope.phone,
+            mail: $scope.mail,
+            login: $scope.login
+        };
+        
+        $mdDialog.hide(data);
     };
 
     $scope.cancel = function() {

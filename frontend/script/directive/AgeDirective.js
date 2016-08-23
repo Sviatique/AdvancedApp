@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('App').directive('ageDirective', function(){
+const ageDirective = function(){
     return {
     require: 'ngModel',
     link: function(scope, element, attr, AccountController) {
@@ -22,4 +22,6 @@ angular.module('App').directive('ageDirective', function(){
       AccountController.$parsers.push(ageValidation);
     }
   };
-});
+};
+
+angular.module('App').directive('ageDirective', ageDirective);

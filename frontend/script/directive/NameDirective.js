@@ -19,6 +19,7 @@ const nameDirective = function() {
         }
         return value;
       }
+      
       AccountController.$parsers.push(nameValidation);
     }
   };

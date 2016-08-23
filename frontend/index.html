@@ -5,46 +5,12 @@
         <link rel="stylesheet" href="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0/angular-material.css">
     </head>
     <body ng-app="App" ng-strict-di ng-cloak>
-          <div class="panel-group" id="accordion" ng-controller='AccountController'>
-             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                Add account
-            </button>
-                <md-button class="md-primary md-raised" ng-click="showPrompt($event)">
-                Add account
-                </md-button>
+        <div class="panel-group" id="accordion" ng-controller='AccountController'>
 
+            <md-button class="md-primary md-raised" ng-click="showPrompt($event)">
+                Add account
+            </md-button>
 
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Creating account</h4>
-                        </div>
-                    <div class="modal-body">
-                        <div id="newAcc">
-                            Name: <input type="text" ng-model="name" required name-directive>
-                            Age: <input type="number" ng-model="age" required age-directive>
-                            Gender: <select ng-model="gender">
-                                    <option>Male</option>
-                                    <option>Female</option>
-                                    </select>
-                                    
-                            Phone number: <input type="text" ng-model="phone" require phone-directive >
-                            Email: <input type="text" ng-model="email">
-                            Login: <input type="text" ng-model="login" >
-                            <div ng-repeat="message in messages">
-                                {{message}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" >Save changes</button>
-                    </div>
-                    </div>
-                </div>
-            </div>
             <div class="panel panel-default account" ng-repeat="(id,person) in accounts">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -89,46 +55,48 @@
 
 
     <script src="script/App.js"> </script>
-    <script src="script/service/AccountManagement.js"> </script>
+    <script src="script/service/AccountService.js"> </script>
     <script src="script/controller/DialogController.js"></script>
     <script type="text/ng-template" id="AccountCreation.tmpl.html">
     
     <md-dialog aria-label="Creating account" style="min-width: 40%">
-  <form ng-cloak>
+  <form ng-submit="submit()" ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Creating account</h2>
       </div>
     </md-toolbar>
-
     <md-dialog-content>
       <div class="md-dialog-content">
         <div id="newAcc">
-                            Name: <input type="text" ng-model="name" required name-directive>
-                            Age: <input type="number" ng-model="age" required age-directive>
-                            Gender: <select ng-model="gender">
-                                    <option>Male</option>
-                                    <option>Female</option>
-                                    </select>
-                                    
-                            Phone number: <input type="text" ng-model="phone" require phone-directive >
-                            Email: <input type="text" ng-model="email">
-                            Login: <input type="text" ng-model="login" >
-                            <div ng-repeat="message in messages">
-                                {{message}}
-                            </div>
-                        </div>
+            Name: <input type="text" ng-model="name" required name-directive>
+            Age: <input type="number" ng-model="age" required age-directive>
+            Gender: <select ng-model="gender">
+                    <option>Male</option>
+                    <option>Female</option>
+                    </select>
+            Phone number: <input type="text" ng-model="phone" required phone-directive >
+            Email: <input type="text" ng-model="email" name="email" required>
+            Login: <input type="text" ng-model="login" required >
+            <div ng-repeat="message in messages">
+                {{message}}
+            </div>
+        </div>
+                        
       </div>
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
       <span flex></span>
-      <md-button ng-click="answer('not useful')">
-       Cancel
-      </md-button>
-      <md-button ng-click="answer('useful')">
-        Create account
-      </md-button>
+      <md-button type="submit">
+            Create account
+        </md-button>
+      <md-button ng-click="cancel()">
+                    Cancel
+                </md-button> 
+        
+                 
+      
     </md-dialog-actions>
   </form>
 </md-dialog>

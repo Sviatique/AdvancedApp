@@ -53,7 +53,7 @@
     <script type="text/ng-template" id="AccountCreation.tmpl.html">
     
     <md-dialog aria-label="Creating account" style="min-width: 40%">
-  <form ng-submit="submit()" ng-cloak>
+  <form name="newAccForm" ng-submit="submit()" ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Creating account</h2>
@@ -62,15 +62,15 @@
     <md-dialog-content>
       <div class="md-dialog-content">
         <div id="newAcc">
-            Name: <input type="text" ng-model="name" required name-directive>
-            Age: <input type="number" ng-model="age" required age-directive>
+            Name: <input type="text" ng-model="name" name="name" required name-directive>
+            Age: <input type="number" ng-model="age" name="age" required age-directive>
             Gender: <select ng-model="gender">
                     <option>Male</option>
                     <option>Female</option>
                     </select>
-            Phone number: <input type="text" ng-model="phone" required phone-directive >
+            Phone number: <input type="text" ng-model="phone" name="phone" phone-directive required  >
             Email: <input type="text" ng-model="email" name="email" required>
-            Login: <input type="text" ng-model="login" required >
+            Login: <input type="text" ng-model="login" name="login" required >
             <div ng-repeat="message in messages">
                 {{message}}
             </div>

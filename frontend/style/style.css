@@ -39,6 +39,9 @@ div#newAcc > * {
     margin-bottom: 10px;
 }
 
-div#newAcc > .ng-invalid {
-    border-color: red;
+input.ng-pristine {
+    background-color: white;
+}
+input.ng-invalid.ng-dirty {
+    background-color: pink;
 }

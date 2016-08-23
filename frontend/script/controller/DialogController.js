@@ -9,7 +9,7 @@ const DialogController = function($scope, $mdDialog){
     $scope.phone = "";
     $scope.mail = "";
     $scope.login = "";
-
+    
     $scope.submit = function() {
         if($scope.messages.length != 0){
             return;

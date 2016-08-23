@@ -1,0 +1,11 @@
+{
+  "esversion": 6,
+  "strict": false,
+  "globals": {
+    "document": true,
+    "console": true,
+    "window": true,
+    "require": true,
+    "angular": true
+  }
+}

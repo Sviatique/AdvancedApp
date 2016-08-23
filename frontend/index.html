@@ -2,18 +2,18 @@
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="style/style.css">
-        
+        <link rel="stylesheet" href="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0/angular-material.css">
     </head>
     <body ng-app="App" ng-strict-di ng-cloak>
-        
-        
-
-         <div class="panel-group" id="accordion" ng-controller='AccountController'>
+          <div class="panel-group" id="accordion" ng-controller='AccountController'>
              <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                 Add account
             </button>
+                <md-button class="md-primary md-raised" ng-click="showPrompt($event)">
+                Add account
+                </md-button>
 
-<!-- Modal -->
+
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -71,14 +71,68 @@
 
 </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
     <script src="modules/ui-bootstrap-1.2.2.min.js"></script>
     
     
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.1.1/ui-bootstrap-tpls.min.js"> </script>
-        <script src="script/App.js"> </script>
-        <script src="script/service/AccountManagement.js"> </script>
+    <!--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"> </script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"> </script>
+    <script src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0/angular-material.js"></script>
+
+
+
+    <script src="script/App.js"> </script>
+    <script src="script/service/AccountManagement.js"> </script>
+    <script src="script/controller/DialogController.js"></script>
+    <script type="text/ng-template" id="AccountCreation.tmpl.html">
+    
+    <md-dialog aria-label="Creating account">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Creating account</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div id="newAcc">
+                            Name: <input type="text" ng-model="name" required name-directive>
+                            Age: <input type="number" ng-model="age" required age-directive>
+                            Gender: <select ng-model="gender">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    </select>
+                                    
+                            Phone number: <input type="text" ng-model="phone" require phone-directive >
+                            Email: <input type="text" ng-model="email">
+                            Login: <input type="text" ng-model="login" >
+                            <div ng-repeat="message in messages">
+                                {{message}}
+                            </div>
+                        </div>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="answer('not useful')">
+       Cancel
+      </md-button>
+      <md-button ng-click="answer('useful')">
+        Create account
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
+    </script>
     <script src="script/controller/AccountController.js"> </script>
     
     <script src="script/directive/NameDirective.js"></script>

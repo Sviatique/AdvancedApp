@@ -1,4 +1,6 @@
-angular.module('App').directive('nameDirective', function() {
+'use strict';
+
+const nameDirective = function() {
   return {
     require: 'ngModel',
     link: function(scope, element, attr, AccountController) {
@@ -13,11 +15,13 @@ angular.module('App').directive('nameDirective', function() {
         } else {
           AccountController.$setValidity('Name', false);
           if(scope.messages.indexOf(message) < 0)
-          scope.messages.push(message);
+            scope.messages.push(message);
         }
         return value;
       }
       AccountController.$parsers.push(nameValidation);
     }
   };
-});
+};
+
+angular.module('App').directive('nameDirective', nameDirective);

@@ -1,10 +1,14 @@
-const AccountManagement = function($http) {
-    const url = 'http://localhost:1337/Account';
+'use strict';
+
+const AccountService = function($http, backendUrl) {
+    
     this.getAccounts = () => {
-        return $http.get(url).then(response =>{
+        return $http.get(backendUrl).then(response =>{
             return response;
         });
     };
 };
-AccountManagement.$inject = ['$http'];
-angular.module('App').service('AccountManagement',AccountManagement);
+
+AccountService.$inject = ['$http', 'backendUrl'];
+
+angular.module('App').service('AccountService',AccountService);

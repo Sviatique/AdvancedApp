@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('App').directive('ageDirective', function(){
     return {
     require: 'ngModel',

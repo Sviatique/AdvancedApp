@@ -10,31 +10,24 @@
             <md-button class="md-primary md-raised" ng-click="showPrompt($event)">
                 Add account
             </md-button>
-
-            <div class="panel panel-default account" ng-repeat="(id,person) in accounts">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <div data-toggle="collapse" data-parent="#accordion" data-target=#{{id}}>
-                            <div class="account ng-cloak" >
-                                <img src={{person.avatarUrl}}> </img>
-                                <p> Id: {{id}} </p>
-                                <p> Name: {{person.name}}</p>
-                                <p> Email: {{person.email}}</p>
-                                <p> Login: {{person.login}}</p>
-                            </div>
+            <uib-accordion close-others="true">
+                <div uib-accordion-group class="panel-default" ng-repeat="(id,person) in accounts">
+                    <uib-accordion-heading>
+                                <div class="account ng-cloak" >
+                                    <img src={{person.avatarUrl}}> </img>
+                                    <p> Id: {{id}} </p>
+                                    <p> Name: {{person.name}}</p>
+                                    <p> Email: {{person.email}}</p>
+                                    <p> Login: {{person.login}}</p>
+                                </div>
+                    </uib-accordion-heading>
+                        <div id={{id}}>
+                            <p> Gender: {{person.gender}}</p>
+                            <p> Age: {{person.age}}</p>
+                            <p> Phone number: {{person.phoneNumber}}</p>
                         </div>
-                    </h4>
                 </div>
-                    <div id={{id}} class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <p> Gender: {{person.gender}}</p>
-                        <p> Age: {{person.age}}</p>
-                        <p> Phone number: {{person.phoneNumber}}</p>
-
-                    </div>
-                </div>
-            </div>
-
+            </uib-accordion>
 </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>

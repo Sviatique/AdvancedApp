@@ -1,7 +1,6 @@
 'use strict';
 
 const AccountController = ($scope, $mdDialog, AccountService) => {
-
     $scope.showPrompt = function(event) {
         $mdDialog.show({
             controller: DialogController,

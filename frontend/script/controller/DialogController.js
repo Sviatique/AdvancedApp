@@ -1,13 +1,13 @@
 'use strict';
 
-const DialogController = function($scope, $mdDialog){
+const DialogController = function($scope, $mdDialog, accData){
     $scope.valid = false;
-    $scope.name = "";
-    $scope.age = 18;
-    $scope.gender = "Male";
-    $scope.phone = "";
-    $scope.mail = "";
-    $scope.login = "";
+    $scope.name = accData.name || "";
+    $scope.age = accData.age || 18;
+    $scope.gender = accData.gender || "Male";
+    $scope.phone = accData.phoneNumber || "";
+    $scope.email = accData.email || "";
+    $scope.login = accData.login || "";
     $scope.phonePattern = "[+]380[(]\\d{2}[)]\\d{3}[-]\\d{2}[-]\\d{2}";
     $scope.emailPattern = "[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}@[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}[\\.][a-zA-Z]{2,3}";
     $scope.submit = function() {
@@ -33,7 +33,7 @@ const DialogController = function($scope, $mdDialog){
     
   };
 
-DialogController.$inject = ["$scope","$mdDialog"];
+DialogController.$inject = ["$scope","$mdDialog", 'accData'];
 
 angular.module('App').controller('DialogController', DialogController);
 

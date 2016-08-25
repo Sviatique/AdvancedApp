@@ -3,14 +3,14 @@
 const phoneDirective = function(){
     return {
     require: 'ngModel',
-    link: function(scope, element, attr, DialogController) {
+    link: function(scope, element, attr, dialogController) {
       function phoneValidation(value) {
         const phoneElement = scope.newAccForm.phone;
         const pattern =  new RegExp('[+]380[(]\\d{2}[)]\\d{3}[-]\\d{2}[-]\\d{2}');
         if (pattern.test(value) && value.length<18) {
-          DialogController.$setValidity("phone", true);
+          dialogController.$setValidity("phone", true);
         } else {
-          DialogController.$setValidity("phone", false);
+          dialogController.$setValidity("phone", false);
         }
         return value;
       }

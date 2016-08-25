@@ -62,18 +62,33 @@
     <md-dialog-content>
       <div class="md-dialog-content">
         <div id="newAcc">
-            Name: <input type="text" ng-model="name" name="name" required name-directive>
-            Age: <input type="number" ng-model="age" name="age" required age-directive>
+            Name: <input type="text" ng-minlength="3" ng-maxlength="18" ng-model="name" name="name" required>
+            Age: <input type="number" ng-required="integer" min="18" max="100" ng-min="18" ng-max="100" ng-model="age" name="age" >
             Gender: <select ng-model="gender">
                     <option>Male</option>
                     <option>Female</option>
                     </select>
-            Phone number: <input type="text" ng-model="phone" name="phone" phone-directive required  >
-            Email: <input type="text" ng-model="email" name="email" required>
-            Login: <input type="text" ng-model="login" name="login" required >
-            <div ng-repeat="message in messages">
-                {{message}}
+            Phone number: <input type="text" ng-pattern="phonePattern" ng-model="phone" name="phone" required  >
+            Email: <input type="text" ng-pattern="emailPattern" ng-model="email" name="email" required>
+            Login: <input type="text" ng-minlength="5" ng-maxlength="15" ng-model="login" name="login" required >
+            <div class="messages">
+                <div ng-show="newAccForm.name.$dirty && newAccForm.name.$invalid" >
+                    Name must be from 3 to 18 characters
+                </div>
+                <div ng-show="newAccForm.age.$dirty && newAccForm.age.$invalid" >
+                    Age must be from 18 to 100
+                </div>
+                <div ng-show="newAccForm.phone.$dirty && newAccForm.phone.$invalid" >
+                    Phone number must match the following format: +380(xx)xxx-xx-xx
+                </div>
+                <div ng-show="newAccForm.email.$dirty && newAccForm.email.$invalid" >
+                    Please, enter correct email
+                </div>
+                <div ng-show="newAccForm.login.$dirty && newAccForm.login.$invalid" >
+                    Login must be from 5 to 15 characters
+                </div>
             </div>
+            
         </div>
                         
       </div>
@@ -96,8 +111,5 @@
     </script>
     <script src="script/controller/AccountController.js"> </script>
     
-    <script src="script/directive/NameDirective.js"></script>
-    <script src="script/directive/AgeDirective.js"></script>
-    <script src="script/directive/PhoneDirective.js"></script>
     </body>
 </html>

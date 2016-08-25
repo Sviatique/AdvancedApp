@@ -2,18 +2,15 @@
 
 const DialogController = function($scope, $mdDialog){
     $scope.valid = false;
-    $scope.messages = [];
     $scope.name = "";
     $scope.age = 18;
     $scope.gender = "Male";
     $scope.phone = "";
     $scope.mail = "";
     $scope.login = "";
-    
+    $scope.phonePattern = "[+]380[(]\\d{2}[)]\\d{3}[-]\\d{2}[-]\\d{2}";
+    $scope.emailPattern = "[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}@[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}[\\.][a-zA-Z]{2,3}";
     $scope.submit = function() {
-        if($scope.messages.length != 0){
-            return;
-        }
         const data = {
             name: $scope.name,
             age: $scope.age,

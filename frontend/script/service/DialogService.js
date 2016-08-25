@@ -8,7 +8,8 @@ const DialogService = function($mdDialog) {
             targetEvent: event,
             templateUrl:'AccountCreation.tmpl.html',
             locals: {
-                    accData: accData
+                    accData: accData,
+                    event: event
                 }
         });
         

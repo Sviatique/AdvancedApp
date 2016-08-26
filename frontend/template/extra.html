@@ -1,7 +1,5 @@
-
-<div>
-      
-        <div class="account ng-cloak"  >
+<div class="account">
+        <div class=" ng-cloak"  >
             <img class="avatar" ng-src={{person.avatarUrl}}> </img>
             <p> Id: {{person.id}} </p>
             <p> Name: {{person.name}}</p>
@@ -19,5 +17,12 @@
             <p> Gender: {{person.gender}}</p>
             <p> Age: {{person.age}}</p>
             <p> Phone number: {{person.phoneNumber}}</p>
+            Activities:
+            <div ng-repeat="activity in person.activities" class="activity"> 
+                <p>Activity #{{activity.id}}:</p>
+                <p>Created at: {{activity.createdAt}}</p>
+                <p>Data: {{activity.date}}</p>
+                <p>Updated at: {{activity.updatedAt}}</p>
+            </div>
         </div>
 </div>

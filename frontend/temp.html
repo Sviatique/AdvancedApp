@@ -1,9 +1,9 @@
-         <div class="panel-group" id="accordion">
+         <div>
             <md-button class="md-primary md-raised" ng-click="newAccount($event)">
                 Add account
             </md-button>
-                <div ng-repeat="person in accounts">
-                        <a href="#/accounts/{{person.id}}" class="account">
+                <div ng-repeat="person in accounts" class="account">
+                        <a href="#/accounts/{{person.id}}" >
                                 <div class="account ng-cloak" href="#/accounts/{{id}}">
                                     <img class="avatar" ng-src={{person.avatarUrl}}> </img>
                                     <p> Id: {{person.id}} </p>
@@ -11,10 +11,7 @@
                                     <p> Email: {{person.email}}</p>
                                     <p> Login: {{person.login}}</p>
                                 </div>
-                                
-                    </a>
-            
-                  
+                        </a>
                 </div>
       
 </div>

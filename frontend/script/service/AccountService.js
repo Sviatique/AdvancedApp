@@ -7,11 +7,12 @@ const AccountService = function($http, backendUrl) {
                  return response;
             }); 
     };
+    
     this.getAccounts = () => {
-             return $http.get(backendUrl)
-            .then(response => {
-                 return response;
-            });
+         return $http.get(backendUrl)
+        .then(response => {
+             return response;
+        });
     };
     
     this.updateAccount = (data, id) => {

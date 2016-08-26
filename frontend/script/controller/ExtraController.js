@@ -15,7 +15,6 @@ const ExtraController = function($scope, $mdDialog, $stateParams, AccountService
         }, function() {
             console.log('You cancelled the dialog.');
         });
-        console.log(event)
     };
 
     $scope.deleteAccount = function(event){

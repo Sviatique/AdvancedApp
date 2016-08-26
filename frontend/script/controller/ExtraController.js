@@ -9,7 +9,7 @@ const ExtraController = function($scope, $mdDialog, $stateParams, AccountService
     
     $scope.modifyAccount = function(event, id){
 
-        DialogService.getAccountDialog(event, $scope.accounts[id])
+        DialogService.getAccountDialog(event, $scope.person)
         .then(function(data) {
             console.log(data);
         }, function() {

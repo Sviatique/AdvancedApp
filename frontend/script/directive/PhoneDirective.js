@@ -1,5 +1,5 @@
 'use strict';
-
+const angular = require('angular');
 const phoneDirective = function(){
     return {
     require: 'ngModel',

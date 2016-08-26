@@ -1,6 +1,5 @@
 'use strict';
-
-const AccountController = ($scope, $mdDialog, AccountService, DialogService) => {
+const AccountController = function($scope, $mdDialog, AccountService, DialogService) {
     
     $scope.newAccount = function(event) {
         DialogService.getAccountDialog(event, {})
@@ -12,7 +11,7 @@ const AccountController = ($scope, $mdDialog, AccountService, DialogService) => 
         
 
     };
-    
+
     $scope.modifyAccount = function(event, id){
         event.preventDefault();
         event.stopPropagation();
@@ -44,13 +43,10 @@ const AccountController = ($scope, $mdDialog, AccountService, DialogService) => 
         //event.stopPropagation();
     };
 
-    AccountService.getAccounts().then(accounts => {
-        $scope.accounts = [];
-        Object.keys(accounts.data).map((key) => {
-            $scope.accounts.push(accounts.data[key])
-		})
-        console.log($scope.accounts)
-    });
+    AccountService.getAccounts()
+    .then(response => {
+        $scope.accounts = response.data; 
+    });;
 };
 
 AccountController.$inject = ["$scope","$mdDialog", "AccountService", "DialogService"];

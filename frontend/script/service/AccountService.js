@@ -1,11 +1,17 @@
 'use strict';
-
 const AccountService = function($http, backendUrl) {
-    
+
+    this.getAccountById = (id) => {
+        return $http.get(backendUrl+'/'+(++id))
+            .then(response => {
+                 return response;
+            }); 
+    };
     this.getAccounts = () => {
-        return $http.get(backendUrl).then(response =>{
-            return response;
-        });
+             return $http.get(backendUrl)
+            .then(response => {
+                 return response;
+            });
     };
 };
 

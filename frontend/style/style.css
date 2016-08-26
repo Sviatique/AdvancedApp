@@ -1,14 +1,10 @@
-img {
+.avatar {
     max-height: 100px;
     max-width: 100px;
 }
 
-p {
-    padding : 10px;
-}
-
-div.account {
-    
+.account > p {
+    padding: 10px;
 }
 
 .panel-default > .panel-heading {
@@ -22,14 +18,25 @@ div.account {
 .ng-cloak {
     display: none !important;
 }
-a {
-    text-decoration: none;
-}
+
 
 .panel, .panel-group .panel-heading+.panel-collapse>.panel-body{
     border: none;
 }
 
-button {
+md-button {
+    background-color: rgb(63,81,181);
     margin: 15px;
+}
+
+div#newAcc > * {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input.ng-pristine {
+    background-color: white;
+}
+input.ng-invalid.ng-dirty {
+    background-color: pink;
 }

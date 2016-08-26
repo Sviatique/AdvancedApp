@@ -1,11 +1,5 @@
+'use strict';
+const backendUrl = 'http://localhost:1337/Account';
+const app = angular.module('App', ['ui.bootstrap', 'ngMaterial']);
+app.constant('backendUrl', backendUrl);
 
-const app = angular.module('App', []);
-
-app.service('AccountsManagement', function($http){
-    const url = 'http://localhost:1337/Account';
-    this.getAccounts = () => {
-        return $http.get(url).then(response =>{
-            return response;
-        });
-    };
-});

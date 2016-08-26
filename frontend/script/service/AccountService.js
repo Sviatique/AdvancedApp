@@ -2,7 +2,7 @@
 const AccountService = function($http, backendUrl) {
 
     this.getAccountById = (id) => {
-        return $http.get(backendUrl+'/'+(++id))
+        return $http.get(backendUrl+'/'+id)
             .then(response => {
                  return response;
             }); 
@@ -13,6 +13,19 @@ const AccountService = function($http, backendUrl) {
                  return response;
             });
     };
+    
+    this.updateAccount = (data, id) => {
+        if(id){
+            $http.put(backendUrl+'/'+id, data);
+        } else {
+            $http.post(backendUrl, data);
+        }
+    };
+    
+    this.deleteAccount = (id) => {
+        $http.delete(backendUrl+'/'+id);
+    };
+    
 };
 
 AccountService.$inject = ['$http', 'backendUrl'];

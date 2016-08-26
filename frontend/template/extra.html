@@ -3,19 +3,19 @@
       
         <div class="account ng-cloak"  >
             <img class="avatar" ng-src={{person.avatarUrl}}> </img>
-            <p> Id: {{id}} </p>
+            <p> Id: {{person.id}} </p>
             <p> Name: {{person.name}}</p>
             <p> Email: {{person.email}}</p>
             <p> Login: {{person.login}}</p>
         </div>
-        <md-button class="md-raised" ng-click="modifyAccount($event, id)">
+        <md-button class="md-raised" ng-click="modifyAccount($event)">
             Modify
         </md-button>
-        <md-button class="md-raised" ng-click="deleteAccount($event, id)">
+        <md-button class="md-raised" ng-click="deleteAccount($event)">
             Delete
         </md-button>
 
-        <div id={{id}}>
+        <div>
             <p> Gender: {{person.gender}}</p>
             <p> Age: {{person.age}}</p>
             <p> Phone number: {{person.phoneNumber}}</p>

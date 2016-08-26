@@ -7,19 +7,18 @@ const ExtraController = function($scope, $mdDialog, $stateParams, AccountService
         $scope.person = response.data;
     });
     
-    $scope.modifyAccount = function(event, id){
+    $scope.modifyAccount = function(event){
 
-        DialogService.getAccountDialog(event, $scope.person)
+        DialogService.getAccountDialog(event, $scope.person, 'Modify')
         .then(function(data) {
-            console.log(data);
+            AccountService.updateAccount(data, $stateParams.id);
         }, function() {
             console.log('You cancelled the dialog.');
         });
         console.log(event)
     };
 
-    $scope.deleteAccount = function(event, id){
-
+    $scope.deleteAccount = function(event){
         const confirm = $mdDialog.confirm()
           .title('Deleting account')
           .textContent('Do you really want to delete this account?')
@@ -29,7 +28,9 @@ const ExtraController = function($scope, $mdDialog, $stateParams, AccountService
           .cancel('Nope');
 
         $mdDialog.show(confirm).then(function() {
-            $scope.accounts.splice(id,1);
+            AccountService.deleteAccount($stateParams.id);
+            window.location.href = 
+                window.location.href.replace('accounts/' + $stateParams.id, "");
         }, function() {
             
         });

@@ -2,11 +2,11 @@
             <md-button class="md-primary md-raised" ng-click="newAccount($event)">
                 Add account
             </md-button>
-                <div ng-repeat="(id,person) in accounts">
-                        <a href="#/accounts/{{id}}" class="account">
+                <div ng-repeat="person in accounts">
+                        <a href="#/accounts/{{person.id}}" class="account">
                                 <div class="account ng-cloak" href="#/accounts/{{id}}">
                                     <img class="avatar" ng-src={{person.avatarUrl}}> </img>
-                                    <p> Id: {{id}} </p>
+                                    <p> Id: {{person.id}} </p>
                                     <p> Name: {{person.name}}</p>
                                     <p> Email: {{person.email}}</p>
                                     <p> Login: {{person.login}}</p>

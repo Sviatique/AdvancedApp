@@ -3,7 +3,9 @@ const backendUrl = 'http://localhost:1337/Account';
 const app = angular.module('App', ['ui.bootstrap', 'ngMaterial', 'ui.router']);
 app.constant('backendUrl', backendUrl);
 
-const routing = ($stateProvider) => {
+const routing = ($urlRouterProvider,$stateProvider) => {
+    $urlRouterProvider
+        .otherwise('/');
     $stateProvider
         .state('index', {
             url: '/',
@@ -17,5 +19,5 @@ const routing = ($stateProvider) => {
     });
 };
 
-routing.$inject = ['$stateProvider'];
+routing.$inject = ['$urlRouterProvider' ,'$stateProvider'];
 app.config(routing);

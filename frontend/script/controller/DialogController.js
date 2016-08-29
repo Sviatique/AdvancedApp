@@ -8,8 +8,8 @@ const DialogController = function($scope, $mdDialog, accData, mode){
     $scope.phone = accData.phoneNumber || "";
     $scope.email = accData.email || "";
     $scope.login = accData.login || "";
-    $scope.phonePattern = "[+]380[(]\\d{2}[)]\\d{3}[-]\\d{2}[-]\\d{2}";
-    $scope.emailPattern = "[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}@[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}[\\.][a-zA-Z]{2,3}";
+    $scope.phonePattern = '[+]380[(]\\d{2}[)]\\d{3}[-]\\d{2}[-]\\d{2}';
+    $scope.emailPattern = '[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}@[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}[\\.][a-zA-Z]{2,3}';
     $scope.mode = mode + ' account';
     $scope.submit = function() {
         const data = {
@@ -20,7 +20,6 @@ const DialogController = function($scope, $mdDialog, accData, mode){
             phoneNumber: $scope.phone,
             email: $scope.email
         };
-        console.log(data);
         $mdDialog.hide(data);
     };
 
@@ -34,7 +33,7 @@ const DialogController = function($scope, $mdDialog, accData, mode){
     
   };
 
-DialogController.$inject = ["$scope","$mdDialog", 'accData', 'mode'];
+DialogController.$inject = ['$scope','$mdDialog', 'accData', 'mode'];
 
 angular.module('App').controller('DialogController', DialogController);
 

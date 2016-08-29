@@ -8,10 +8,12 @@ const ExtraController = function($scope, $mdDialog, $stateParams, AccountService
     });
     
     $scope.modifyAccount = function(event){
-
         DialogService.getAccountDialog(event, $scope.person, 'Modify')
         .then(function(data) {
-            AccountService.updateAccount(data, $stateParams.id);
+            AccountService.updateAccount(data, $stateParams.id)
+            .then(response => {
+                $scope.person = response.data;
+            });
         }, function() {
             console.log('You cancelled the dialog.');
         });
@@ -28,16 +30,14 @@ const ExtraController = function($scope, $mdDialog, $stateParams, AccountService
 
         $mdDialog.show(confirm).then(function() {
             AccountService.deleteAccount($stateParams.id);
-            window.location.href = 
-                window.location.href.replace('accounts/' + $stateParams.id, "");
-        }, function() {
-            
+            window.open(window.location.href
+                        .replace('accounts/' + $stateParams.id, ''), '_self');
+        }, function() {      
         });
     };
-
 };
 
-ExtraController.$inject = ["$scope","$mdDialog", "$stateParams", "AccountService", "DialogService"];
+ExtraController.$inject = ['$scope','$mdDialog', '$stateParams', 'AccountService', 'DialogService'];
 
 angular.module('App').controller('ExtraController', ExtraController);
 

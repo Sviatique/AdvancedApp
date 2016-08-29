@@ -17,9 +17,9 @@ const AccountService = function($http, backendUrl) {
     
     this.updateAccount = (data, id) => {
         if(id){
-            $http.put(backendUrl+'/'+id, data);
+            return $http.put(backendUrl+'/'+id, data);
         } else {
-            $http.post(backendUrl, data);
+            return $http.post(backendUrl, data);
         }
     };
     

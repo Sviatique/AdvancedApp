@@ -1,6 +1,7 @@
 'use strict';
 
 const dialogController = function($scope, $mdDialog, accData, mode){
+    
     $scope.valid = false;
     $scope.name = accData.name || "";
     $scope.age = accData.age || 18;
@@ -12,7 +13,7 @@ const dialogController = function($scope, $mdDialog, accData, mode){
     $scope.emailPattern = '[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}@[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}[\\.][a-zA-Z]{2,3}';
     $scope.mode = mode + ' account';
     
-    $scope.submit = function() {
+    $scope.submit = () => {
         const data = {
             name: $scope.name,
             login: $scope.login,
@@ -24,11 +25,11 @@ const dialogController = function($scope, $mdDialog, accData, mode){
         $mdDialog.hide(data);
     };
 
-    $scope.cancel = function() {
+    $scope.cancel = () => {
         $mdDialog.cancel();
     };
 
-    $scope.hide = function() {
+    $scope.hide = () => {
         $mdDialog.hide();
     };
     

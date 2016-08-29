@@ -91,6 +91,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var dialogController = function dialogController($scope, $mdDialog, accData, mode) {
+
     $scope.valid = false;
     $scope.name = accData.name || "";
     $scope.age = accData.age || 18;
@@ -147,6 +148,7 @@ var infoController = function infoController($scope, $mdDialog, $state, $statePa
         console.log($scope.person);
         var date = [];
         var actions = [];
+
         $scope.person.activities.map(function (value) {
             actions.push(value.amountOfActions);
             date.push(value.date.split(':')[0].split('T')[0]);
@@ -181,35 +183,6 @@ var infoController = function infoController($scope, $mdDialog, $state, $statePa
                 data: actions
             }]
         });
-        //    $('#activityChart').highcharts({
-        //        title: {
-        //            text: 'Activities',
-        //            x: -20 
-        //        },
-        //        xAxis: {
-        //            categories: date
-        //        },
-        //        yAxis: {
-        //            title: {
-        //                text: 'Date'
-        //            },
-        //            plotLines: [{
-        //                value: 0,
-        //                width: 1,
-        //                color: '#808080'
-        //            }]
-        //        },
-        //        legend: {
-        //            layout: 'vertical',
-        //            align: 'right',
-        //            verticalAlign: 'middle',
-        //            borderWidth: 0
-        //        },
-        //        series: [{
-        //            name: 'Number of actions',
-        //            data: actions
-        //        }]
-        //    });
     });
 
     $scope.modifyAccount = function (event) {

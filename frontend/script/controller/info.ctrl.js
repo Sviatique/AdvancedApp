@@ -45,29 +45,6 @@ const infoController = function($scope, $mdDialog,$state, $stateParams, accountS
         }]
     });
 
-//        $('#activityChart').highcharts({
-//        chart: {
-//            type: 'bar'
-//        },
-//        title: {
-//            text: 'Activities'
-//        },
-//        xAxis: {
-//            categories: ['Created at', 'Updated at']
-//        },
-//        yAxis: {
-//            title: {
-//                text: 'Activities'
-//            }
-//        },
-//        series: [{
-//            name: 'Created at',
-//            data: [1, 0, 4]
-//        }, {
-//            name: 'Updated at',
-//            data: [5, 7, 3]
-//        }]
-//    });
     });
     
            

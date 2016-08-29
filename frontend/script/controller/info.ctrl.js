@@ -6,15 +6,12 @@ const infoController = function($scope, $mdDialog,$state, $stateParams, accountS
     .then(response => {
         $scope.person = response.data;
         console.log($scope.person)
-        let createdAt = [];
-        let updatedAt = [];
         let date = [];
         let actions = [];
         $scope.person.activities.map(value => {
             actions.push(value.amountOfActions);
             date.push(value.date.split(':')[0].split('T')[0])
         });
-        console.log(updatedAt)
     $('#activityChart').highcharts({
         title: {
             text: 'Activities',

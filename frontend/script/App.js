@@ -1,4 +1,6 @@
 'use strict';
+
+
 const backendUrl = 'http://localhost:1337/Account';
 const app = angular.module('App', ['ui.bootstrap', 'ngMaterial', 'ui.router']);
 app.constant('backendUrl', backendUrl);

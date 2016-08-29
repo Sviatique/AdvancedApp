@@ -1,5 +1,7 @@
 'use strict';
 const accountController = function($scope, $mdDialog, $stateParams, accountService, dialogService) {
+
+         
     accountService.getAccounts()
     .then(response => {
         $scope.accounts = response.data; 
@@ -9,7 +11,6 @@ const accountController = function($scope, $mdDialog, $stateParams, accountServi
     $scope.newAccount = function(event) {
         dialogService.getAccountDialog(event, {}, 'Create')
         .then(function(data) {
-            
             accountService.updateAccount(data)
             .then(response => {
                 accountService.getAccounts()
@@ -17,7 +18,6 @@ const accountController = function($scope, $mdDialog, $stateParams, accountServi
                     $scope.accounts = response.data; 
                 });
             });
-            
         }, function() {
            console.log('You cancelled the dialog.');
         });

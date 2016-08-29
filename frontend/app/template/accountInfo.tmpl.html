@@ -1,0 +1,23 @@
+<div class="account">
+        <div class=" ng-cloak"  >
+            <img class="avatar" ng-src={{person.avatarUrl}}> </img>
+            <p> Id: {{person.id}} </p>
+            <p> Name: {{person.name}}</p>
+            <p> Email: {{person.email}}</p>
+            <p> Login: {{person.login}}</p>
+        </div>
+        <md-button class="md-raised" ng-click="modifyAccount($event)">
+            Modify
+        </md-button>
+        <md-button class="md-raised" ng-click="deleteAccount($event)">
+            Delete
+        </md-button>
+
+        <div>
+            <p> Gender: {{person.gender}}</p>
+            <p> Age: {{person.age}}</p>
+            <p> Phone number: {{person.phoneNumber}}</p>
+              <div id="activityChart"> </div>
+            
+        </div>
+</div>

@@ -1,4 +1,4 @@
-<html  >
+<html>
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="style/style.css">
@@ -10,12 +10,12 @@
                 Add account
             </md-button>
             <uib-accordion close-others="true">
-                <div uib-accordion-group class="panel-default" ng-repeat="(id,person) in accounts">
+                <div uib-accordion-group class="panel-default" ng-repeat="person in accounts">
       
                     <uib-accordion-heading>
-                                <div class="account ng-cloak" >
+                                <div class="account ng-cloak" href="#/accounts/{{person.id}}">
                                     <img class="avatar" ng-src={{person.avatarUrl}}> </img>
-                                    <p> Id: {{id}} </p>
+                                    <p> Id: {{person.id}} </p>
                                     <p> Name: {{person.name}}</p>
                                     <p> Email: {{person.email}}</p>
                                     <p> Login: {{person.login}}</p>
@@ -38,17 +38,13 @@
 </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
-    <!--<script src="modules/ui-bootstrap-1.2.2.min.js"></script>-->
-    
-    
-    <!--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
     
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"> </script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"> </script>
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"> </script>-->
-    <!--<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>-->
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"> </script>
     <script src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0/angular-material.js"></script>
 
@@ -58,65 +54,8 @@
     <script src="script/service/AccountService.js"> </script>
     <script src="script/service/DialogService.js"></script>
     <script src="script/controller/DialogController.js"></script>
-    <script type="text/ng-template" id="AccountCreation.tmpl.html">
     
-    <md-dialog aria-label="Creating account" style="min-width: 40%">
-  <form name="newAccForm" ng-submit="submit()" ng-cloak>
-    <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2>Creating account</h2>
-      </div>
-    </md-toolbar>
-    <md-dialog-content>
-      <div class="md-dialog-content">
-        <div id="newAcc">
-            Name: <input type="text" ng-minlength="3" ng-maxlength="18" ng-model="name" name="name"  required>
-            Age: <input type="number" ng-required="integer" min="18" max="100" ng-min="18" ng-max="100" ng-model="age" name="age" >
-            Gender: <select ng-model="gender">
-                    <option>Male</option>
-                    <option>Female</option>
-                    </select>
-            Phone number: <input type="text" ng-pattern="phonePattern" ng-model="phone" name="phone" required  >
-            Email: <input type="text" ng-pattern="emailPattern" ng-model="email" name="email" required>
-            Login: <input type="text" ng-minlength="5" ng-maxlength="15" ng-model="login" name="login" required >
-            <div class="messages">
-                <div ng-show="newAccForm.name.$dirty && newAccForm.name.$invalid" >
-                    Name must be from 3 to 18 characters
-                </div>
-                <div ng-show="newAccForm.age.$dirty && newAccForm.age.$invalid" >
-                    Age must be from 18 to 100
-                </div>
-                <div ng-show="newAccForm.phone.$dirty && newAccForm.phone.$invalid" >
-                    Phone number must match the following format: +380(xx)xxx-xx-xx
-                </div>
-                <div ng-show="newAccForm.email.$dirty && newAccForm.email.$invalid" >
-                    Please, enter correct email
-                </div>
-                <div ng-show="newAccForm.login.$dirty && newAccForm.login.$invalid" >
-                    Login must be from 5 to 15 characters
-                </div>
-            </div>
-            
-        </div>
-                        
-      </div>
-    </md-dialog-content>
-
-    <md-dialog-actions layout="row">
-      <span flex></span>
-      <md-button type="submit">
-            Create account
-        </md-button>
-      <md-button ng-click="cancel()">
-                    Cancel
-                </md-button> 
-        
-                 
-      
-    </md-dialog-actions>
-  </form>
-</md-dialog>
-    </script>
+   
     <script src="script/controller/AccountController.js"> </script>
     
     </body>

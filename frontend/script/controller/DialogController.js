@@ -1,6 +1,6 @@
 'use strict';
 
-const DialogController = function($scope, $mdDialog, accData){
+const DialogController = function($scope, $mdDialog, accData, mode){
     $scope.valid = false;
     $scope.name = accData.name || "";
     $scope.age = accData.age || 18;
@@ -8,18 +8,18 @@ const DialogController = function($scope, $mdDialog, accData){
     $scope.phone = accData.phoneNumber || "";
     $scope.email = accData.email || "";
     $scope.login = accData.login || "";
-    $scope.phonePattern = "[+]380[(]\\d{2}[)]\\d{3}[-]\\d{2}[-]\\d{2}";
-    $scope.emailPattern = "[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}@[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}[\\.][a-zA-Z]{2,3}";
+    $scope.phonePattern = '[+]380[(]\\d{2}[)]\\d{3}[-]\\d{2}[-]\\d{2}';
+    $scope.emailPattern = '[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}@[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}[\\.][a-zA-Z]{2,3}';
+    $scope.mode = mode + ' account';
     $scope.submit = function() {
         const data = {
             name: $scope.name,
+            login: $scope.login,
             age: $scope.age,
             gender: $scope.gender,
-            phone: $scope.phone,
-            mail: $scope.mail,
-            login: $scope.login
+            phoneNumber: $scope.phone,
+            email: $scope.email
         };
-        
         $mdDialog.hide(data);
     };
 
@@ -33,7 +33,7 @@ const DialogController = function($scope, $mdDialog, accData){
     
   };
 
-DialogController.$inject = ["$scope","$mdDialog", 'accData'];
+DialogController.$inject = ['$scope','$mdDialog', 'accData', 'mode'];
 
 angular.module('App').controller('DialogController', DialogController);
 

@@ -7,10 +7,11 @@
     padding: 10px;
 }
 
-.panel-default > .panel-heading {
+.account {
+    padding: 10px;
     margin: 15px;
     border-radius: 15px;
-    width: 50%;
+    width: 70%;
     background-color: rgb(194, 194, 214);
     border: none;
 }
@@ -39,4 +40,11 @@ input.ng-pristine {
 }
 input.ng-invalid.ng-dirty {
     background-color: pink;
+}
+
+.activity {
+    background-color:antiquewhite;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
 }

@@ -1,5 +1,5 @@
 'use strict';
-const AccountService = function($http, backendUrl) {
+const accountService = function($http, backendUrl) {
 
     this.getAccountById = (id) => {
         return $http.get(backendUrl+'/'+id)
@@ -24,11 +24,11 @@ const AccountService = function($http, backendUrl) {
     };
     
     this.deleteAccount = (id) => {
-        $http.delete(backendUrl+'/'+id);
+        return $http.delete(backendUrl+'/'+id);
     };
     
 };
 
-AccountService.$inject = ['$http', 'backendUrl'];
+accountService.$inject = ['$http', 'backendUrl'];
 
-angular.module('App').service('AccountService',AccountService);
+angular.module('App').service('accountService',accountService);

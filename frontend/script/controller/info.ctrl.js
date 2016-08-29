@@ -1,16 +1,16 @@
 'use strict';
 
-const ExtraController = function($scope, $mdDialog, $stateParams, AccountService, DialogService) {
+const infoController = function($scope, $mdDialog,$state, $stateParams, accountService, dialogService) {
     
-    AccountService.getAccountById($stateParams.id)
+    accountService.getAccountById($stateParams.id)
     .then(response => {
         $scope.person = response.data;
     });
     
     $scope.modifyAccount = function(event){
-        DialogService.getAccountDialog(event, $scope.person, 'Modify')
+        dialogService.getAccountDialog(event, $scope.person, 'Modify')
         .then(function(data) {
-            AccountService.updateAccount(data, $stateParams.id)
+            accountService.updateAccount(data, $stateParams.id)
             .then(response => {
                 $scope.person = response.data;
             });
@@ -28,16 +28,19 @@ const ExtraController = function($scope, $mdDialog, $stateParams, AccountService
           .ok('Do it!')
           .cancel('Nope');
 
-        $mdDialog.show(confirm).then(function() {
-            AccountService.deleteAccount($stateParams.id);
-            window.open(window.location.href
-                        .replace('accounts/' + $stateParams.id, ''), '_self');
+        $mdDialog.show(confirm)
+            .then(function() {
+            accountService.deleteAccount($stateParams.id)
+            .then(response => {
+               $state.go('index'); 
+            });
+            
         }, function() {      
         });
     };
 };
 
-ExtraController.$inject = ['$scope','$mdDialog', '$stateParams', 'AccountService', 'DialogService'];
+infoController.$inject = ['$scope','$mdDialog','$state', '$stateParams', 'accountService', 'dialogService'];
 
-angular.module('App').controller('ExtraController', ExtraController);
+angular.module('App').controller('infoController', infoController);
 

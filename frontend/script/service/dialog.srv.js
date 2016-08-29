@@ -1,10 +1,10 @@
 'use strict';
-const DialogService = function($mdDialog) {
+const dialogService = function($mdDialog) {
     this.getAccountDialog = (event,accData, mode) => {
         return $mdDialog.show({
-            controller: DialogController,
+            controller: dialogController,
             targetEvent: event,
-            templateUrl:'template/AccountCreation.tmpl.html',
+            templateUrl:'template/accountEdit.tmpl.html',
             locals: {
                     accData: accData,
                     mode: mode,
@@ -15,6 +15,6 @@ const DialogService = function($mdDialog) {
     };
 };
 
-DialogService.$inject = ['$mdDialog'];
+dialogService.$inject = ['$mdDialog'];
 
-angular.module('App').service('DialogService',DialogService);
+angular.module('App').service('dialogService',dialogService);

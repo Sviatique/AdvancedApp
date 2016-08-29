@@ -7,13 +7,13 @@ const routing = ($stateProvider) => {
     $stateProvider
         .state('index', {
             url: '/',
-            controller: 'AccountController',
-            templateUrl: './temp.html'
+            controller: 'accountController',
+            templateUrl: 'template/accountList.tmpl.html'
         })
         .state('extra', {
             url: '/accounts/:id',
-            controller: 'ExtraController',
-            templateUrl: 'template/extra.html'
+            controller: 'infoController',
+            templateUrl: 'template/accountInfo.tmpl.html'
     });
 };
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const DialogController = function($scope, $mdDialog, accData, mode){
+const dialogController = function($scope, $mdDialog, accData, mode){
     $scope.valid = false;
     $scope.name = accData.name || "";
     $scope.age = accData.age || 18;
@@ -33,7 +33,7 @@ const DialogController = function($scope, $mdDialog, accData, mode){
     
   };
 
-DialogController.$inject = ['$scope','$mdDialog', 'accData', 'mode'];
+dialogController.$inject = ['$scope','$mdDialog', 'accData', 'mode'];
 
-angular.module('App').controller('DialogController', DialogController);
+angular.module('App').controller('dialogController', dialogController);
 

@@ -9,7 +9,10 @@ const lr = require('tiny-lr');
 const server = lr();
 const inject = require('gulp-inject');
 const sass = require('gulp-sass');
-
+const templateCache = require('gulp-angular-templatecache');
+const sourcemaps = require('gulp-sourcemaps');
+const uglify = require('gulp-uglify');
+const creanCSS = require('gulp-clean-css');
 //const ngAnnotate = require('gulp-ng-annotate');
 
 
@@ -19,11 +22,34 @@ gulp.task('lr-server', function() {
     });
 });
 
-gulp.task('build', function(){
-    return browserify('./app/script/app.js')
+gulp.task('compress', function(){
+    gulp.src('./build/**/*.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('minifyCSS', function(){
+    gulp.src('./build/*.css')
+    .pipe(cleanCSS())
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('bundle', function(){
+    browserify('./app/script/app.js')
     .transform(babelify)
     .bundle()
     .pipe(source('index.js'))
+    .pipe(gulp.dest('./build'));
+})
+
+gulp.task('build', function(){
+    gulp.run('bundle', 'compress');
+});
+
+
+gulp.task('templates', function(){
+    return gulp.src('app/template/**/*.html')
+    .pipe(templateCache({module: 'templatesCache', standalone:true}))
     .pipe(gulp.dest('./build'));
 });
 
@@ -34,10 +60,22 @@ gulp.task('sass', function(){
 });
 
 gulp.task('inject', function(){
+    gulp.run('templates');
     gulp.src('home.html')
-    .pipe(inject(gulp.src(['../frontend/build/index.js','../frontend/build/style.css', '../frontend/node_modules/angular-material/angular-material.min.css'
-    ,'../frontend/node_modules/bootstrap/dist/css/bootstrap.min.css' ])))
+    .pipe(inject(gulp.src(['./build/index.js'
+                           , './build/templates.js'
+                           , './build/style.css'
+                           , './node_modules/angular-material/angular-material.min.css'
+                           , './node_modules/bootstrap/dist/css/bootstrap.min.css' ]), {relative: 'true'}))
     .pipe(gulp.dest('./'));
+});
+
+gulp.task('prettify', function() {
+  return gulp.src('./dist/**/*.js')
+    .pipe(sourcemaps.init())
+      .pipe(concat('all.js'))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('run', function(){

@@ -5,6 +5,7 @@ const angular = require('angular');
 require('angular-ui-bootstrap');
 require('angular-material');
 require('angular-ui-router');
+
 import accountController from './controller/account.ctrl';
 import accountService from './service/account.srv';
 import dialogService from './service/dialog.srv';
@@ -12,7 +13,7 @@ import dialogController from './controller/dialog.ctrl';
 import infoController from './controller/info.ctrl';
 const backendUrl = 'http://localhost:1337/Account';
 
-const app = angular.module('app', ['ui.bootstrap', 'ngMaterial', 'ui.router']);
+const app = angular.module('app', ['ui.bootstrap', 'ngMaterial', 'ui.router', 'templatesCache']);
 app.constant('backendUrl', backendUrl);
 
 const routing = ($urlRouterProvider, $stateProvider) => {
@@ -22,12 +23,12 @@ const routing = ($urlRouterProvider, $stateProvider) => {
         .state('index', {
             url: '/',
             controller: 'accountController as vm',
-            templateUrl: 'app/template/accountList.tmpl.html'
+            templateUrl: 'accountList.tmpl.html'
         })
         .state('extra', {
             url: '/accounts/:id',
             controller: 'infoController as vm',
-            templateUrl: 'app/template/accountInfo.tmpl.html'
+            templateUrl: 'accountInfo.tmpl.html'
         });
 };
 

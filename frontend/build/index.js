@@ -30,7 +30,7 @@ require('angular-ui-router');
 
 var backendUrl = 'http://localhost:1337/Account';
 
-var app = angular.module('app', ['ui.bootstrap', 'ngMaterial', 'ui.router']);
+var app = angular.module('app', ['ui.bootstrap', 'ngMaterial', 'ui.router', 'templatesCache']);
 app.constant('backendUrl', backendUrl);
 
 var routing = function routing($urlRouterProvider, $stateProvider) {
@@ -38,11 +38,11 @@ var routing = function routing($urlRouterProvider, $stateProvider) {
     $stateProvider.state('index', {
         url: '/',
         controller: 'accountController as vm',
-        templateUrl: 'app/template/accountList.tmpl.html'
+        templateUrl: 'accountList.tmpl.html'
     }).state('extra', {
         url: '/accounts/:id',
         controller: 'infoController as vm',
-        templateUrl: 'app/template/accountInfo.tmpl.html'
+        templateUrl: 'accountInfo.tmpl.html'
     });
 };
 
@@ -271,7 +271,7 @@ var dialogService = function dialogService($mdDialog) {
         return $mdDialog.show({
             controller: 'dialogController as vm',
             targetEvent: event,
-            templateUrl: 'app/template/accountEdit.tmpl.html',
+            templateUrl: 'accountEdit.tmpl.html',
             locals: {
                 accData: accData,
                 mode: mode,

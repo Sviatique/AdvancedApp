@@ -6,7 +6,7 @@ const dialogService = function ($mdDialog) {
         return $mdDialog.show({
             controller: 'dialogController as vm',
             targetEvent: event,
-            templateUrl: 'app/template/accountEdit.tmpl.html',
+            templateUrl: 'accountEdit.tmpl.html',
             locals: {
                 accData: accData,
                 mode: mode,

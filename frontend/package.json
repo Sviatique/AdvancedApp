@@ -27,8 +27,12 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "devDependencies": {
+    "gulp-angular-templatecache": "^2.0.0",
+    "gulp-clean-css": "^2.0.12",
     "gulp-inject": "^4.1.0",
     "gulp-sass": "^2.3.2",
-    "gulp-style-inject": "0.0.3"
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-style-inject": "0.0.3",
+    "gulp-uglify": "^2.0.0"
   }
 }

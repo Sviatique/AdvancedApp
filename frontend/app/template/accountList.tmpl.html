@@ -1,10 +1,10 @@
 <div>
-    <md-button class="md-primary md-raised" ng-click="newAccount($event)">
+    <md-button class="md-primary md-raised" ng-click="vm.newAccount($event)">
         Add account
     </md-button>
-    <div ng-repeat="person in accounts" class="account">
-        <a href="#/accounts/{{person.id}}" >
-            <div class="account ng-cloak" href="#/accounts/{{id}}">
+    <div ng-repeat="person in vm.accounts" class="account">
+        <a href="#/accounts/{{person.id}}">
+            <div class="account ng-cloak">
                 <img class="avatar" ng-src={{person.avatarUrl}}> </img>
                 <p> Id: {{person.id}} </p>
                 <p> Name: {{person.name}}</p>
@@ -13,6 +13,5 @@
             </div>
         </a>
     </div>
-  
+
 </div>
-    

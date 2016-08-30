@@ -1,41 +1,39 @@
 'use strict';
+const phonePattern = '[+]380[(]\\d{2}[)]\\d{3}[-]\\d{2}[-]\\d{2}';
+const emailPattern = '[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}@[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}[\\.][a-zA-Z]{2,3}';
 
-const dialogController = function($scope, $mdDialog, accData, mode){
-    
-    $scope.valid = false;
-    $scope.name = accData.name || "";
-    $scope.age = accData.age || 18;
-    $scope.gender = accData.gender || "Male";
-    $scope.phone = accData.phoneNumber || "";
-    $scope.email = accData.email || "";
-    $scope.login = accData.login || "";
-    $scope.phonePattern = '[+]380[(]\\d{2}[)]\\d{3}[-]\\d{2}[-]\\d{2}';
-    $scope.emailPattern = '[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}@[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}[\\.][a-zA-Z]{2,3}';
-    $scope.mode = mode + ' account';
-    
-    $scope.submit = () => {
+const dialogController = function ($mdDialog, accData, mode) {
+    this.valid = false;
+    this.name = accData.name || '';
+    this.age = accData.age || 18;
+    this.gender = accData.gender || 'male';
+    this.phone = accData.phoneNumber || '';
+    this.email = accData.email || '';
+    this.login = accData.login || '';
+    this.phonePattern = phonePattern;
+    this.emailPattern = emailPattern;
+    this.mode = mode + ' account';
+
+    this.submit = () => {
         const data = {
-            name: $scope.name,
-            login: $scope.login,
-            age: $scope.age,
-            gender: $scope.gender,
-            phoneNumber: $scope.phone,
-            email: $scope.email
+            name: this.name,
+            login: this.login,
+            age: this.age,
+            gender: this.gender,
+            phoneNumber: this.phone,
+            email: this.email
         };
         $mdDialog.hide(data);
     };
 
-    $scope.cancel = () => {
+    this.cancel = () => {
         $mdDialog.cancel();
     };
 
-    $scope.hide = () => {
-        $mdDialog.hide();
-    };
-    
-  };
 
-dialogController.$inject = ['$scope','$mdDialog', 'accData', 'mode'];
+};
+
+dialogController.$inject = ['$mdDialog', 'accData', 'mode'];
 
 export default dialogController;
 

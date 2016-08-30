@@ -15,23 +15,23 @@ const backendUrl = 'http://localhost:1337/Account';
 const app = angular.module('app', ['ui.bootstrap', 'ngMaterial', 'ui.router']);
 app.constant('backendUrl', backendUrl);
 
-const routing = ($urlRouterProvider,$stateProvider) => {
+const routing = ($urlRouterProvider, $stateProvider) => {
     $urlRouterProvider
         .otherwise('/');
     $stateProvider
         .state('index', {
             url: '/',
-            controller: 'accountController',
+            controller: 'accountController as vm',
             templateUrl: 'app/template/accountList.tmpl.html'
         })
         .state('extra', {
             url: '/accounts/:id',
-            controller: 'infoController',
+            controller: 'infoController as vm',
             templateUrl: 'app/template/accountInfo.tmpl.html'
-    });
+        });
 };
 
-routing.$inject = ['$urlRouterProvider' ,'$stateProvider'];
+routing.$inject = ['$urlRouterProvider', '$stateProvider'];
 app.config(routing);
 
 app.service('accountService', accountService);

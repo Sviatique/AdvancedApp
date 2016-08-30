@@ -37,11 +37,11 @@ var routing = function routing($urlRouterProvider, $stateProvider) {
     $urlRouterProvider.otherwise('/');
     $stateProvider.state('index', {
         url: '/',
-        controller: 'accountController',
+        controller: 'accountController as vm',
         templateUrl: 'app/template/accountList.tmpl.html'
     }).state('extra', {
         url: '/accounts/:id',
-        controller: 'infoController',
+        controller: 'infoController as vm',
         templateUrl: 'app/template/accountInfo.tmpl.html'
     });
 };
@@ -61,26 +61,27 @@ app.controller('infoController', _info2.default);
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var accountController = function accountController($scope, $mdDialog, $stateParams, accountService, dialogService) {
+var accountController = function accountController($mdDialog, $stateParams, accountService, dialogService) {
+    var _this = this;
 
     accountService.getAccounts().then(function (response) {
-        $scope.accounts = response.data;
+        _this.accounts = response.data;
     });
 
-    $scope.newAccount = function (event) {
+    this.newAccount = function (event) {
         dialogService.getAccountDialog(event, {}, 'Create').then(function (data) {
-            accountService.updateAccount(data).then(function (response) {
-                accountService.getAccounts().then(function (response) {
-                    $scope.accounts = response.data;
-                });
-            });
-        }, function () {
+            return accountService.updateAccount(data);
+        }).then(function (response) {
+            return accountService.getAccounts();
+        }).then(function (response) {
+            _this.accounts = response.data;
+        }).catch(function () {
             console.log('You cancelled the dialog.');
         });
     };
 };
 
-accountController.$inject = ['$scope', '$mdDialog', '$stateParams', 'accountService', 'dialogService'];
+accountController.$inject = ['$mdDialog', '$stateParams', 'accountService', 'dialogService'];
 
 exports.default = accountController;
 
@@ -90,41 +91,41 @@ exports.default = accountController;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var dialogController = function dialogController($scope, $mdDialog, accData, mode) {
+var phonePattern = '[+]380[(]\\d{2}[)]\\d{3}[-]\\d{2}[-]\\d{2}';
+var emailPattern = '[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}@[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}[\\.][a-zA-Z]{2,3}';
 
-    $scope.valid = false;
-    $scope.name = accData.name || "";
-    $scope.age = accData.age || 18;
-    $scope.gender = accData.gender || "Male";
-    $scope.phone = accData.phoneNumber || "";
-    $scope.email = accData.email || "";
-    $scope.login = accData.login || "";
-    $scope.phonePattern = '[+]380[(]\\d{2}[)]\\d{3}[-]\\d{2}[-]\\d{2}';
-    $scope.emailPattern = '[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}@[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}[\\.][a-zA-Z]{2,3}';
-    $scope.mode = mode + ' account';
+var dialogController = function dialogController($mdDialog, accData, mode) {
+    var _this = this;
 
-    $scope.submit = function () {
+    this.valid = false;
+    this.name = accData.name || '';
+    this.age = accData.age || 18;
+    this.gender = accData.gender || 'male';
+    this.phone = accData.phoneNumber || '';
+    this.email = accData.email || '';
+    this.login = accData.login || '';
+    this.phonePattern = phonePattern;
+    this.emailPattern = emailPattern;
+    this.mode = mode + ' account';
+
+    this.submit = function () {
         var data = {
-            name: $scope.name,
-            login: $scope.login,
-            age: $scope.age,
-            gender: $scope.gender,
-            phoneNumber: $scope.phone,
-            email: $scope.email
+            name: _this.name,
+            login: _this.login,
+            age: _this.age,
+            gender: _this.gender,
+            phoneNumber: _this.phone,
+            email: _this.email
         };
         $mdDialog.hide(data);
     };
 
-    $scope.cancel = function () {
+    this.cancel = function () {
         $mdDialog.cancel();
-    };
-
-    $scope.hide = function () {
-        $mdDialog.hide();
     };
 };
 
-dialogController.$inject = ['$scope', '$mdDialog', 'accData', 'mode'];
+dialogController.$inject = ['$mdDialog', 'accData', 'mode'];
 
 exports.default = dialogController;
 
@@ -141,17 +142,20 @@ var _highcharts2 = _interopRequireDefault(_highcharts);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var infoController = function infoController($scope, $mdDialog, $state, $stateParams, accountService, dialogService) {
+var infoController = function infoController($mdDialog, $state, $stateParams, accountService, dialogService) {
+    var _this = this;
 
     accountService.getAccountById($stateParams.id).then(function (response) {
-        $scope.person = response.data;
-        console.log($scope.person);
+        _this.person = response.data;
         var date = [];
         var actions = [];
+        var dateInstance = void 0;
 
-        $scope.person.activities.map(function (value) {
+        _this.person.activities.map(function (value) {
+            dateInstance = new Date(value.date);
             actions.push(value.amountOfActions);
-            date.push(value.date.split(':')[0].split('T')[0]);
+
+            date.push(dateInstance.getDate() + '/' + dateInstance.getMonth());
         });
 
         _highcharts2.default.chart('activityChart', {
@@ -160,11 +164,14 @@ var infoController = function infoController($scope, $mdDialog, $state, $statePa
                 x: -20
             },
             xAxis: {
+                title: {
+                    text: 'Date'
+                },
                 categories: date
             },
             yAxis: {
                 title: {
-                    text: 'Date'
+                    text: 'Number of actions'
                 },
                 plotLines: [{
                     value: 0,
@@ -179,34 +186,37 @@ var infoController = function infoController($scope, $mdDialog, $state, $statePa
                 borderWidth: 0
             },
             series: [{
-                name: 'Number of actions',
+                name: 'User activity',
                 data: actions
             }]
         });
     });
 
-    $scope.modifyAccount = function (event) {
-        dialogService.getAccountDialog(event, $scope.person, 'Modify').then(function (data) {
-            accountService.updateAccount(data, $stateParams.id).then(function (response) {
-                $scope.person = response.data;
-            });
-        }, function () {
+    this.modifyAccount = function (event) {
+        dialogService.getAccountDialog(event, _this.person, 'Edit').then(function (response) {
+            accountService.updateAccount(response, $stateParams.id);
+            return response;
+        }).then(function (response) {
+            _this.person = response;
+        }).catch(function () {
             console.log('You cancelled the dialog.');
         });
     };
 
-    $scope.deleteAccount = function (event) {
+    this.deleteAccount = function (event) {
         var confirm = $mdDialog.confirm().title('Deleting account').textContent('Do you really want to delete this account?').ariaLabel('Deleting').targetEvent(event).ok('Do it!').cancel('Nope');
 
         $mdDialog.show(confirm).then(function () {
-            accountService.deleteAccount($stateParams.id).then(function (response) {
-                $state.go('index');
-            });
-        }, function () {});
+            return accountService.deleteAccount($stateParams.id);
+        }).then(function () {
+            $state.go('index');
+        }).catch(function () {
+            console.log('Error when deleting account');
+        });
     };
 };
 
-infoController.$inject = ['$scope', '$mdDialog', '$state', '$stateParams', 'accountService', 'dialogService'];
+infoController.$inject = ['$mdDialog', '$state', '$stateParams', 'accountService', 'dialogService'];
 
 exports.default = infoController;
 
@@ -219,15 +229,11 @@ Object.defineProperty(exports, "__esModule", {
 var accountService = function accountService($http, backendUrl) {
 
     this.getAccountById = function (id) {
-        return $http.get(backendUrl + '/' + id).then(function (response) {
-            return response;
-        });
+        return $http.get(backendUrl + '/' + id);
     };
 
     this.getAccounts = function () {
-        return $http.get(backendUrl).then(function (response) {
-            return response;
-        });
+        return $http.get(backendUrl);
     };
 
     this.updateAccount = function (data, id) {
@@ -263,7 +269,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var dialogService = function dialogService($mdDialog) {
     this.getAccountDialog = function (event, accData, mode) {
         return $mdDialog.show({
-            controller: _dialog2.default,
+            controller: 'dialogController as vm',
             targetEvent: event,
             templateUrl: 'app/template/accountEdit.tmpl.html',
             locals: {

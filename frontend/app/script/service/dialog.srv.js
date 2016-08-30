@@ -1,19 +1,19 @@
 'use strict';
 import dialogController from '../controller/dialog.ctrl';
 
-const dialogService = function($mdDialog) {
-    this.getAccountDialog = (event,accData, mode) => {
+const dialogService = function ($mdDialog) {
+    this.getAccountDialog = (event, accData, mode) => {
         return $mdDialog.show({
-            controller: dialogController,
+            controller: 'dialogController as vm',
             targetEvent: event,
-            templateUrl:'app/template/accountEdit.tmpl.html',
+            templateUrl: 'app/template/accountEdit.tmpl.html',
             locals: {
-                    accData: accData,
-                    mode: mode,
-                    event: event
-                }
+                accData: accData,
+                mode: mode,
+                event: event
+            }
         });
-        
+
     };
 };
 

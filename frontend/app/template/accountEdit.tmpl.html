@@ -1,56 +1,53 @@
-    <md-dialog aria-label="Creating account" style="min-width: 40%">
-  <form name="newAccForm" ng-submit="submit()" ng-cloak>
-    <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2>{{mode}}</h2>
-      </div>
-    </md-toolbar>
-    <md-dialog-content>
-      <div class="md-dialog-content">
-        <div id="newAcc">
-            Name: <input type="text" ng-minlength="3" ng-maxlength="18" ng-model="name" name="name"  required>
-            Age: <input type="number" ng-required="integer" min="18" max="100" ng-min="18" ng-max="100" ng-model="age" name="age" >
-            Gender: <select ng-model="gender">
+<md-dialog aria-label="Creating account" style="min-width: 40%">
+    <form name="newAccForm" ng-submit="vm.submit()" ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{vm.mode}}</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div id="newAcc">
+                    Name: <input type="text" ng-minlength="3" ng-maxlength="18" ng-model="vm.name" name="name" required> Age: <input type="number" ng-required="integer" min="18" max="100" ng-min="18" ng-max="100" ng-model="vm.age" name="age"> Gender:
+                    <select ng-model="vm.gender">
                     <option>male</option>
                     <option>female</option>
-                    </select>
-            Phone number: <input type="text" ng-pattern="phonePattern" ng-model="phone" name="phone" required  >
-            Email: <input type="text" ng-pattern="emailPattern" ng-model="email" name="email" required>
-            Login: <input type="text" ng-minlength="5" ng-maxlength="15" ng-model="login" name="login" required >
-            <div class="messages">
-                <div ng-show="newAccForm.name.$dirty && newAccForm.name.$invalid" >
-                    Name must be from 3 to 18 characters
-                </div>
-                <div ng-show="newAccForm.age.$dirty && newAccForm.age.$invalid" >
-                    Age must be from 18 to 100
-                </div>
-                <div ng-show="newAccForm.phone.$dirty && newAccForm.phone.$invalid" >
-                    Phone number must match the following format: +380(xx)xxx-xx-xx
-                </div>
-                <div ng-show="newAccForm.email.$dirty && newAccForm.email.$invalid" >
-                    Please, enter correct email
-                </div>
-                <div ng-show="newAccForm.login.$dirty && newAccForm.login.$invalid" >
-                    Login must be from 5 to 15 characters
-                </div>
-            </div>
-            
-        </div>
-                        
-      </div>
-    </md-dialog-content>
+                    </select> Phone number: <input type="text" ng-pattern="vm.phonePattern" ng-model="vm.phone" name="phone" required> Email: <input type="text" ng-pattern="vm.emailPattern" ng-model="vm.email" name="email" required> Login: <input type="text"
+                        ng-minlength="5" ng-maxlength="15" ng-model="vm.login" name="login" required>
+                    <div class="messages">
+                        <div ng-show="newAccForm.name.$dirty && newAccForm.name.$invalid">
+                            Name must be from 3 to 18 characters
+                        </div>
+                        <div ng-show="newAccForm.age.$dirty && newAccForm.age.$invalid">
+                            Age must be from 18 to 100
+                        </div>
+                        <div ng-show="newAccForm.phone.$dirty && newAccForm.phone.$invalid">
+                            Phone number must match the following format: +380(xx)xxx-xx-xx
+                        </div>
+                        <div ng-show="newAccForm.email.$dirty && newAccForm.email.$invalid">
+                            Please, enter correct email
+                        </div>
+                        <div ng-show="newAccForm.login.$dirty && newAccForm.login.$invalid">
+                            Login must be from 5 to 15 characters
+                        </div>
+                    </div>
 
-    <md-dialog-actions layout="row">
-      <span flex></span>
-      <md-button type="submit">
-            {{mode}}
-        </md-button>
-        <md-button ng-click="cancel()">
-            Cancel
-        </md-button> 
-        
-                 
-      
-    </md-dialog-actions>
-  </form>
+                </div>
+
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button type="submit">
+                {{vm.mode}}
+            </md-button>
+            <md-button ng-click="vm.cancel()">
+                Cancel
+            </md-button>
+
+
+
+        </md-dialog-actions>
+    </form>
 </md-dialog>

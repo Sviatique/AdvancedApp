@@ -13,72 +13,44 @@ const templateCache = require('gulp-angular-templatecache');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 const creanCSS = require('gulp-clean-css');
+const jshint = require('gulp-jshint');
+const jscs = require('gulp-jscs');
+const concatCSS = require('gulp-concat-css');
 //const ngAnnotate = require('gulp-ng-annotate');
 
+gulp.task('vet', vet);
 
-gulp.task('lr-server', function() {  
-    server.listen(35729, function(err) {
-        if(err) return console.log(err);
-    });
-});
+gulp.task('lrServer', lrServer);
 
-
-gulp.task('minifyCSS', function(){
-    gulp.src('./build/*.css')
-    .pipe(cleanCSS())
-    .pipe(gulp.dest('./dist'));
-});
+gulp.task('minifyCSS', minifyCSS);
 
 gulp.task('bundle', bundle);
 
 gulp.task('minifyJS', ['bundle'], minifyJS);
 
+gulp.task('concatCSS', bundleCSS);
+
 gulp.task('templates', templates);
 
-gulp.task('injectDeps', ['templates'], injectDeps);
+gulp.task('injectDeps', ['concatCSS','templates'], injectDeps);
 
 gulp.task('build',['minifyJS', 'injectDeps']);
 
+gulp.task('sass', sassCompose);
 
-gulp.task('sass', function(){
-    return gulp.src('./app/style/**/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./build'));
-});
+gulp.task('prettify', prettify );
 
+gulp.task('run',['lr-server', 'build', 'sass', 'inject'], run );
 
-gulp.task('prettify', function() {
-  return gulp.src('./dist/**/*.js')
-    .pipe(sourcemaps.init())
-      .pipe(concat('all.js'))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./dist'));
-});
+gulp.task('unitTestCi', unitTestCi);
 
-gulp.task('run', function(){
-    gulp.run('lr-server', 'build', 'sass', 'inject');
-    
-    gulp.watch('./app/**/*', function(event) {  
-        gulp.run('build');
-    });
-});
+gulp.task('unitTestWatch', unitTestWatch);
 
-gulp.task('unitTestCi', function(){
-    
-});
+gulp.task('e2e', e2e);
 
-gulp.task('unitTestWatch', function(){
-    
-});
+gulp.task('runTest',['unitTestCi', 'e2e']);
 
-gulp.task('e2e', function(){
-    
-});
-
-gulp.task('test',['unitTestCi', 'e2e'], function(){
-    
-});
-
+///////////////////////////////
 
 function bundle(){
     const src = './app/script/app.js';
@@ -92,6 +64,7 @@ function bundle(){
 
 function templates(){
     const src = 'app/template/**/*.html';
+    
     return gulp.src(src)
     .pipe(templateCache({module: 'templatesCache', standalone:true}))
     .pipe(gulp.dest('./build'));
@@ -106,13 +79,80 @@ function minifyJS(){
 }
 
 function injectDeps(){
-    gulp.src('home.html')
-    .pipe(inject(gulp.src(['./build/index.js'
-                           , './build/templates.js'
-                           , './build/style.css'
-                           , './node_modules/angular-material/angular-material.min.css'
-                           , './node_modules/bootstrap/dist/css/bootstrap.min.css' ]), {relative: 'true'}))
+    return gulp.src('home.html')
+    .pipe(inject(gulp.src(['./build/index.js',
+                           './build/templates.js', 
+                           './build/style.css']), {relative: 'true'}))
     .pipe(gulp.dest('./'));
+}
+
+function vet(){
+    const src = ['./app/script/**/*.js', './*.js'];
+    
+    return gulp
+        .src(src)
+        .pipe(jscs())
+        .pipe(jshint())
+        .pipe(jshint.reporter('jshint-stylish', {verbose: true}))
+        .pipe(jshint.reporter('fail'));
+}
+
+function prettify() {
+    return gulp.src('./dist/**/*.js')
+    .pipe(sourcemaps.init())
+      .pipe(concat('all.js'))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('./dist'));
+}
+
+function minifyCSS(){
+    return gulp.src('./build/*.css')
+    .pipe(cleanCSS())
+    .pipe(gulp.dest('./dist'));
+}
+
+function lrServer() {  
+    return server.listen(35729, function(err) {
+        if(err) return console.log(err);
+    });
+}
+
+function sassCompose(){
+    return gulp.src('./app/style/**/*.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('./build'));
+}
+
+function run(){
+    gulp.watch('./app/**/*', function(event) {  
+        gulp.run('build');
+    });
+}
+
+function unitTestCi() {
+    
+}
+
+function e2e() {
+    
+}
+
+function unitTestWatch() {
+    
+}
+
+function runTest() {
+    
+}
+
+function bundleCSS() {
+    const src = ['./build/style.css', 
+                 './node_modules/angular-material/angular-material.min.css',
+                 './node_modules/bootstrap/dist/css/bootstrap.min.css'];
+
+    return gulp.src(src)
+    .pipe(concatCSS('style.css'))
+    .pipe(gulp.dest('./build'))
 }
 //gulp.task('copy', copy);
 //

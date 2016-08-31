@@ -29,10 +29,17 @@
   "devDependencies": {
     "gulp-angular-templatecache": "^2.0.0",
     "gulp-clean-css": "^2.0.12",
+    "gulp-concat-css": "^2.3.0",
     "gulp-inject": "^4.1.0",
+    "gulp-jscs": "^4.0.0",
+    "gulp-jshint": "^2.0.1",
+    "gulp-load-plugins": "^1.2.4",
     "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-style-inject": "0.0.3",
-    "gulp-uglify": "^2.0.0"
+    "gulp-uglify": "^2.0.0",
+    "jscs": "^3.0.7",
+    "jshint": "^2.9.3",
+    "jshint-stylish": "^2.2.1"
   }
 }

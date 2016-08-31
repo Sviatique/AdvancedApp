@@ -7,7 +7,6 @@ const accountController = function ($mdDialog, $stateParams, accountService, dia
     accountService.getAccounts()
         .then(response => {
             vm.accounts = response.data;
-
         });
 
     this.newAccount = event => {

@@ -2,15 +2,16 @@
 import Highcharts from 'highcharts';
 
 const infoController = function ($mdDialog, $state, $stateParams, accountService, dialogService) {
-
+    const vm = this;
+    
     accountService.getAccountById($stateParams.id)
         .then(response => {
-            this.person = response.data;
+            vm.person = response.data;
             let date = [];
             let actions = [];
             let dateInstance;
 
-            this.person.activities.map(value => {
+            vm.person.activities.map(value => {
                 dateInstance = new Date(value.date);
                 actions.push(value.amountOfActions);
 
@@ -53,24 +54,23 @@ const infoController = function ($mdDialog, $state, $stateParams, accountService
         });
 
 
-    this.modifyAccount = event => {
-        dialogService.getAccountDialog(event, this.person, 'Edit')
+    vm.modifyAccount = event => {
+        dialogService.getAccountDialog(event, vm.person, 'Edit')
             .then(response => {
-                accountService.updateAccount(response, $stateParams.id);
-                return response;
+                return accountService.updateAccount(response, $stateParams.id);
             })
             .then(response => {
-                this.person = response;
+                vm.person = response;
             })
             .catch(() => {
                 console.log('You cancelled the dialog.');
             });
     };
 
-    this.deleteAccount = (event) => {
+    vm.deleteAccount = (event) => {
         const confirm = $mdDialog.confirm()
             .title('Deleting account')
-            .textContent('Do you really want to delete this account?')
+            .textContent('Do you really want to delete vm account?')
             .ariaLabel('Deleting')
             .targetEvent(event)
             .ok('Do it!')

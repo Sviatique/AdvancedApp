@@ -2,10 +2,11 @@
 
 
 const accountController = function ($mdDialog, $stateParams, accountService, dialogService) {
-
+    const vm = this;
+    
     accountService.getAccounts()
         .then(response => {
-            this.accounts = response.data;
+            vm.accounts = response.data;
 
         });
 
@@ -14,11 +15,11 @@ const accountController = function ($mdDialog, $stateParams, accountService, dia
             .then(data => {
                 return accountService.updateAccount(data);
             })
-            .then(response => {
+            .then(() => {
                 return accountService.getAccounts();
             })
             .then(response => {
-                this.accounts = response.data;
+                vm.accounts = response.data;
              })
             .catch(() => {
                 console.log('You cancelled the dialog.');

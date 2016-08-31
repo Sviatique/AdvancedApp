@@ -22,11 +22,6 @@ gulp.task('lr-server', function() {
     });
 });
 
-gulp.task('compress', function(){
-    gulp.src('./build/**/*.js')
-    .pipe(uglify())
-    .pipe(gulp.dest('./dist'));
-});
 
 gulp.task('minifyCSS', function(){
     gulp.src('./build/*.css')
@@ -34,24 +29,16 @@ gulp.task('minifyCSS', function(){
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('bundle', function(){
-    browserify('./app/script/app.js')
-    .transform(babelify)
-    .bundle()
-    .pipe(source('index.js'))
-    .pipe(gulp.dest('./build'));
-})
+gulp.task('bundle', bundle);
 
-gulp.task('build', function(){
-    gulp.run('bundle', 'compress');
-});
+gulp.task('minifyJS', ['bundle'], minifyJS);
 
+gulp.task('templates', templates);
 
-gulp.task('templates', function(){
-    return gulp.src('app/template/**/*.html')
-    .pipe(templateCache({module: 'templatesCache', standalone:true}))
-    .pipe(gulp.dest('./build'));
-});
+gulp.task('injectDeps', ['templates'], injectDeps);
+
+gulp.task('build',['minifyJS', 'injectDeps']);
+
 
 gulp.task('sass', function(){
     return gulp.src('./app/style/**/*.scss')
@@ -59,16 +46,6 @@ gulp.task('sass', function(){
     .pipe(gulp.dest('./build'));
 });
 
-gulp.task('inject', function(){
-    gulp.run('templates');
-    gulp.src('home.html')
-    .pipe(inject(gulp.src(['./build/index.js'
-                           , './build/templates.js'
-                           , './build/style.css'
-                           , './node_modules/angular-material/angular-material.min.css'
-                           , './node_modules/bootstrap/dist/css/bootstrap.min.css' ]), {relative: 'true'}))
-    .pipe(gulp.dest('./'));
-});
 
 gulp.task('prettify', function() {
   return gulp.src('./dist/**/*.js')
@@ -86,12 +63,65 @@ gulp.task('run', function(){
     });
 });
 
-
-
-gulp.task('copy', function(){
-   gulp.src(['../frontend/app/**/*', '../frontend/node_modules/**/*', '../frontend/bower_components/**/*'], {
-       base: '../frontend'
-   })
-   .pipe(gulp.dest('./dist'));
+gulp.task('unitTestCi', function(){
+    
 });
 
+gulp.task('unitTestWatch', function(){
+    
+});
+
+gulp.task('e2e', function(){
+    
+});
+
+gulp.task('test',['unitTestCi', 'e2e'], function(){
+    
+});
+
+
+function bundle(){
+    const src = './app/script/app.js';
+    
+    return browserify(src)
+    .transform(babelify)
+    .bundle()
+    .pipe(source('index.js'))
+    .pipe(gulp.dest('./build'));
+}
+
+function templates(){
+    const src = 'app/template/**/*.html';
+    return gulp.src(src)
+    .pipe(templateCache({module: 'templatesCache', standalone:true}))
+    .pipe(gulp.dest('./build'));
+}
+
+function minifyJS(){
+    const src = './build/**/*.js';
+    
+    return gulp.src(src)
+    .pipe(uglify())
+    .pipe(gulp.dest('./dist'));
+}
+
+function injectDeps(){
+    gulp.src('home.html')
+    .pipe(inject(gulp.src(['./build/index.js'
+                           , './build/templates.js'
+                           , './build/style.css'
+                           , './node_modules/angular-material/angular-material.min.css'
+                           , './node_modules/bootstrap/dist/css/bootstrap.min.css' ]), {relative: 'true'}))
+    .pipe(gulp.dest('./'));
+}
+//gulp.task('copy', copy);
+//
+//function copy(){
+//    const src = ['../frontend/app/**/*', '../frontend/node_modules/**/*', '../frontend/bower_components/**/*'];
+//    const base = {
+//       base: '../frontend'
+//    };
+//    
+//    return gulp.src(src, base)
+//    .pipe(gulp.dest('./dist'));
+//};

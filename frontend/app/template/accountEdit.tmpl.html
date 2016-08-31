@@ -9,12 +9,24 @@
         <md-dialog-content>
             <div class="md-dialog-content">
                 <div id="newAcc">
-                    Name: <input type="text" ng-minlength="3" ng-maxlength="18" ng-model="vm.name" name="name" required> Age: <input type="number" ng-required="integer" min="18" max="100" ng-min="18" ng-max="100" ng-model="vm.age" name="age"> Gender:
-                    <select ng-model="vm.gender">
-                    <option>male</option>
-                    <option>female</option>
-                    </select> Phone number: <input type="text" ng-pattern="vm.phonePattern" ng-model="vm.phone" name="phone" required> Email: <input type="text" ng-pattern="vm.emailPattern" ng-model="vm.email" name="email" required> Login: <input type="text"
-                        ng-minlength="5" ng-maxlength="15" ng-model="vm.login" name="login" required>
+                    <label>Name:</label>
+                    <input type="text" ng-minlength="3" ng-maxlength="18" ng-model="vm.name" name="name" required> 
+                    
+                    <label>Age:</label>
+                    <input type="number" ng-required="integer" ng-min="18" ng-max="100" ng-model="vm.age" name="age"> 
+                    
+                    <label>Gender:</label>
+                    <select ng-model="vm.gender" ng-options="gender for gender in vm.genderSelect"></select> 
+                    
+                    <label>Phone number:</label>
+                    <input type="text" ng-pattern="vm.phonePattern" ng-model="vm.phone" name="phone" required> 
+                    
+                    <label>Email:</label> 
+                    <input type="text" ng-pattern="vm.emailPattern" ng-model="vm.email" name="email" required> 
+                    
+                    <label>Login:</label>
+                    <input type="text" ng-minlength="5" ng-maxlength="15" ng-model="vm.login" name="login" required>
+                    
                     <div class="messages">
                         <div ng-show="newAccForm.name.$dirty && newAccForm.name.$invalid">
                             Name must be from 3 to 18 characters

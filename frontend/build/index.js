@@ -62,19 +62,19 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var accountController = function accountController($mdDialog, $stateParams, accountService, dialogService) {
-    var _this = this;
+    var vm = this;
 
     accountService.getAccounts().then(function (response) {
-        _this.accounts = response.data;
+        vm.accounts = response.data;
     });
 
     this.newAccount = function (event) {
         dialogService.getAccountDialog(event, {}, 'Create').then(function (data) {
             return accountService.updateAccount(data);
-        }).then(function (response) {
+        }).then(function () {
             return accountService.getAccounts();
         }).then(function (response) {
-            _this.accounts = response.data;
+            vm.accounts = response.data;
         }).catch(function () {
             console.log('You cancelled the dialog.');
         });
@@ -95,32 +95,33 @@ var phonePattern = '[+]380[(]\\d{2}[)]\\d{3}[-]\\d{2}[-]\\d{2}';
 var emailPattern = '[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}@[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}[\\.][a-zA-Z]{2,3}';
 
 var dialogController = function dialogController($mdDialog, accData, mode) {
-    var _this = this;
+    var vm = this;
 
-    this.valid = false;
-    this.name = accData.name || '';
-    this.age = accData.age || 18;
-    this.gender = accData.gender || 'male';
-    this.phone = accData.phoneNumber || '';
-    this.email = accData.email || '';
-    this.login = accData.login || '';
-    this.phonePattern = phonePattern;
-    this.emailPattern = emailPattern;
-    this.mode = mode + ' account';
+    vm.name = accData.name || '';
+    vm.age = accData.age || 18;
+    vm.gender = accData.gender || 'male';
+    vm.genderSelect = ['male', 'female'];
 
-    this.submit = function () {
+    vm.phone = accData.phoneNumber || '';
+    vm.email = accData.email || '';
+    vm.login = accData.login || '';
+    vm.phonePattern = phonePattern;
+    vm.emailPattern = emailPattern;
+    vm.mode = mode + ' account';
+
+    vm.submit = function () {
         var data = {
-            name: _this.name,
-            login: _this.login,
-            age: _this.age,
-            gender: _this.gender,
-            phoneNumber: _this.phone,
-            email: _this.email
+            name: vm.name,
+            login: vm.login,
+            age: vm.age,
+            gender: vm.gender,
+            phoneNumber: vm.phone,
+            email: vm.email
         };
         $mdDialog.hide(data);
     };
 
-    this.cancel = function () {
+    vm.cancel = function () {
         $mdDialog.cancel();
     };
 };
@@ -143,15 +144,15 @@ var _highcharts2 = _interopRequireDefault(_highcharts);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var infoController = function infoController($mdDialog, $state, $stateParams, accountService, dialogService) {
-    var _this = this;
+    var vm = this;
 
     accountService.getAccountById($stateParams.id).then(function (response) {
-        _this.person = response.data;
+        vm.person = response.data;
         var date = [];
         var actions = [];
         var dateInstance = void 0;
 
-        _this.person.activities.map(function (value) {
+        vm.person.activities.map(function (value) {
             dateInstance = new Date(value.date);
             actions.push(value.amountOfActions);
 
@@ -192,19 +193,18 @@ var infoController = function infoController($mdDialog, $state, $stateParams, ac
         });
     });
 
-    this.modifyAccount = function (event) {
-        dialogService.getAccountDialog(event, _this.person, 'Edit').then(function (response) {
-            accountService.updateAccount(response, $stateParams.id);
-            return response;
+    vm.modifyAccount = function (event) {
+        dialogService.getAccountDialog(event, vm.person, 'Edit').then(function (response) {
+            return accountService.updateAccount(response, $stateParams.id);
         }).then(function (response) {
-            _this.person = response;
+            vm.person = response;
         }).catch(function () {
             console.log('You cancelled the dialog.');
         });
     };
 
-    this.deleteAccount = function (event) {
-        var confirm = $mdDialog.confirm().title('Deleting account').textContent('Do you really want to delete this account?').ariaLabel('Deleting').targetEvent(event).ok('Do it!').cancel('Nope');
+    vm.deleteAccount = function (event) {
+        var confirm = $mdDialog.confirm().title('Deleting account').textContent('Do you really want to delete vm account?').ariaLabel('Deleting').targetEvent(event).ok('Do it!').cancel('Nope');
 
         $mdDialog.show(confirm).then(function () {
             return accountService.deleteAccount($stateParams.id);

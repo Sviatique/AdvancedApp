@@ -3,7 +3,7 @@
 
 const accountController = function ($mdDialog, $stateParams, accountService, dialogService) {
     const vm = this;
-    
+    this.arr = ['1', '2', '3'];
     accountService.getAccounts()
         .then(response => {
             vm.accounts = response.data;

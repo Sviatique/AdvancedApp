@@ -16,6 +16,8 @@ const creanCSS = require('gulp-clean-css');
 const jshint = require('gulp-jshint');
 const jscs = require('gulp-jscs');
 const concatCSS = require('gulp-concat-css');
+const karma = require('karma').Server;
+const jasmine = require('gulp-jasmine');
 //const ngAnnotate = require('gulp-ng-annotate');
 
 gulp.task('vet', vet);
@@ -74,7 +76,7 @@ function minifyJS(){
     const src = './build/**/*.js';
     
     return gulp.src(src)
-    .pipe(uglify())
+    .pipe(uglify('index.min.js'))
     .pipe(gulp.dest('./dist'));
 }
 
@@ -129,9 +131,18 @@ function run(){
     });
 }
 
-function unitTestCi() {
+function unitTestCi(done) {
+    return new karma({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done).start();
     
 }
+
+gulp.task('jasmine', function(){
+    return gulp.src('app/test/unit/*.js')
+    .pipe(jasmine());
+});
 
 function e2e() {
     
@@ -154,6 +165,8 @@ function bundleCSS() {
     .pipe(concatCSS('style.css'))
     .pipe(gulp.dest('./build'))
 }
+
+
 //gulp.task('copy', copy);
 //
 //function copy(){

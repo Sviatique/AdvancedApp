@@ -50,7 +50,7 @@ gulp.task('unitTestWatch', unitTestWatch);
 
 gulp.task('e2e', e2e);
 
-gulp.task('runTest',['unitTestCi', 'e2e']);
+gulp.task('test',['unitTestCi', 'e2e']);
 
 ///////////////////////////////
 
@@ -131,36 +131,32 @@ function run(){
     });
 }
 
-function unitTestCi(done) {
+function getServer(done, singleRun){
     return new karma({
         configFile: __dirname + '/karma.conf.js',
-        singleRun: true
-    }, done).start();
+        singleRun: singleRun
+    }, done);
+}
+
+function unitTestCi(done) {
+    return getServer(done, true).start();
     
 }
 
-gulp.task('jasmine', function(){
-    return gulp.src('app/test/unit/*.js')
-    .pipe(jasmine());
-});
 
 function e2e() {
     
 }
 
-function unitTestWatch() {
-    
+function unitTestWatch(done) {
+    return getServer(done, false).start();
 }
 
-function runTest() {
-    
-}
 
 function bundleCSS() {
     const src = ['./build/style.css', 
                  './node_modules/angular-material/angular-material.min.css',
                  './node_modules/bootstrap/dist/css/bootstrap.min.css'];
-
     return gulp.src(src)
     .pipe(concatCSS('style.css'))
     .pipe(gulp.dest('./build'))

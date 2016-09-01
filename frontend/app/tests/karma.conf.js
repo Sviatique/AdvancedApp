@@ -9,6 +9,6 @@ module.exports = function(config) {
         'unit/**/*.js'
     ],
       reporters: ['html'],
-      browsers: ['Chrome']
+      browsers: ['Chrome', 'PhantomJS']
   });
 };

@@ -11,13 +11,14 @@ const inject = require('gulp-inject');
 const sass = require('gulp-sass');
 const templateCache = require('gulp-angular-templatecache');
 const sourcemaps = require('gulp-sourcemaps');
-const uglify = require('gulp-uglify');
+//const uglify = require('gulp-uglify');
 const creanCSS = require('gulp-clean-css');
 const jshint = require('gulp-jshint');
 const jscs = require('gulp-jscs');
 const concatCSS = require('gulp-concat-css');
 const karma = require('karma').Server;
 const jasmine = require('gulp-jasmine');
+const $ = require('gulp-load-plugins')();
 //const ngAnnotate = require('gulp-ng-annotate');
 
 gulp.task('lint', vet);
@@ -76,7 +77,7 @@ function minifyJS(){
     const src = './build/**/*.js';
     
     return gulp.src(src)
-    .pipe(uglify('index.min.js'))
+    .pipe($.uglify('index.min.js'))
     .pipe(gulp.dest('./dist'));
 }
 
@@ -92,10 +93,10 @@ function vet(){
     const src = ['./app/src/script/**/*.js', './*.js'];
     return gulp
         .src(src)
-        .pipe(jscs())
-        .pipe(jshint())
-        .pipe(jshint.reporter('jshint-stylish', {verbose: true}))
-        .pipe(jshint.reporter('fail'));
+        .pipe($.jscs())
+        .pipe($.jshint())
+        .pipe($.jshint.reporter('jshint-stylish', {verbose: true}))
+        .pipe($.jshint.reporter('fail'));
 }
 
 function prettify() {

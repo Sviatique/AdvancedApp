@@ -1,0 +1,37 @@
+.avatar {
+  max-height: 100px;
+  max-width: 100px; }
+
+.account > p {
+  padding: 10px; }
+
+.account {
+  padding: 10px;
+  margin: 15px;
+  border-radius: 15px;
+  width: 70%;
+  background-color: #c2c2d6;
+  border: none; }
+
+[ng-cloak] {
+  display: none !important; }
+
+md-button {
+  background-color: #3f51b5;
+  margin: 15px; }
+
+div#newAcc > * {
+  display: block;
+  margin-bottom: 10px; }
+
+input.ng-pristine {
+  background-color: white; }
+
+input.ng-invalid.ng-dirty {
+  background-color: pink; }
+
+#activityChart {
+  max-height: 500px; }
+
+a > div.row {
+  margin-left: 0px; }

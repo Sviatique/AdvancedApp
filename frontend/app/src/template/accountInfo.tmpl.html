@@ -1,0 +1,61 @@
+<div class="account">
+    <div ng-cloak>
+        <img class="avatar" ng-src={{vm.person.avatarUrl}}> </img>
+    </div>
+    <div>
+        <div class="row">
+            <div class="col-xs-6">
+                <label>Name:</label>
+
+            </div>
+            <div class="col-xs-6">
+                <p> {{vm.person.name}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <label> Login:</label>
+            </div>
+            <div class="col-xs-6">
+                <p> {{vm.person.login}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <label>Age:</label>
+            </div>
+            <div class="col-xs-6">
+                <p> {{vm.person.age}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <label>Gender:</label>
+            </div>
+            <div class="col-xs-6">
+                <p> {{vm.person.gender}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <label>Phone number:</label>
+            </div>
+            <div class="col-xs-6">
+                <p> {{vm.person.phoneNumber}}</p>
+            </div>
+        </div>
+        <md-button class="md-raised" ng-click="vm.modifyAccount($event)">
+            Modify
+        </md-button>
+        <md-button class="md-raised" ng-click="vm.deleteAccount($event)">
+            Delete
+        </md-button>
+        <div id="activityChart"> </div>
+    </div>
+
+
+</div>

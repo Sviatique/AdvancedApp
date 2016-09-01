@@ -16,14 +16,10 @@
     border: none;
 }
 
-.ng-cloak {
+[ng-cloak] {
     display: none !important;
 }
 
-.panel,
-.panel-group .panel-heading+.panel-collapse>.panel-body {
-    border: none;
-}
 
 md-button {
     background-color: rgb(63, 81, 181);
@@ -43,9 +39,10 @@ input.ng-invalid.ng-dirty {
     background-color: pink;
 }
 
-.activity {
-    background-color: antiquewhite;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 6px;
+#activityChart {
+    max-height: 500px;
+}
+
+a > div.row {
+    margin-left: 0px;
 }

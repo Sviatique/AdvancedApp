@@ -1,0 +1,46 @@
+<div>
+    <md-button class="md-primary md-raised" ng-click="vm.newAccount($event)">
+        Add account
+    </md-button>
+    <div ng-repeat="person in vm.accounts" class="account">
+        <a href="#/accounts/{{person.id}}">
+            <img class="avatar" ng-src={{person.avatarUrl}}> </img>
+            <div class="row">
+                <div class="col-xs-6 ">
+                    <label> Id: </label>
+                </div>
+                <div class="col-xs-6 ">
+                    <p> {{person.id}} </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6 ">
+                    <label> Name:</label>
+                </div>
+                <div class="col-xs-6 ">
+                    <p> {{person.name}}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6 ">
+                    <label> Email: </label>
+                </div>
+                <div class="col-xs-6 ">
+                    <p> {{person.email}}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6 ">
+                    <label> Login:</label>
+                </div>
+                <div class="col-xs-6 ">
+                    <p> {{person.login}}</p>
+                </div>
+            </div>
+
+        </a>
+    </div>
+</div>

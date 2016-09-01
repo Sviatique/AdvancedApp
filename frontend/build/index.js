@@ -63,7 +63,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var accountController = function accountController($mdDialog, $stateParams, accountService, dialogService) {
     var vm = this;
-
+    this.arr = ['1', '2', '3'];
     accountService.getAccounts().then(function (response) {
         vm.accounts = response.data;
     });

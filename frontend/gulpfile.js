@@ -20,7 +20,7 @@ const karma = require('karma').Server;
 const jasmine = require('gulp-jasmine');
 //const ngAnnotate = require('gulp-ng-annotate');
 
-gulp.task('vet', vet);
+gulp.task('lint', vet);
 
 gulp.task('lrServer', lrServer);
 
@@ -90,7 +90,6 @@ function injectDeps(){
 
 function vet(){
     const src = ['./app/script/**/*.js', './*.js'];
-    
     return gulp
         .src(src)
         .pipe(jscs())

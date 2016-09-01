@@ -6,7 +6,7 @@ module.exports = function(config) {
         'build/index.js',
         'build/templates.js',
         'node_modules/angular-mocks/angular-mocks.js',
-        'app/test/unit/**/*.js'
+        'test/unit/**/*.js'
     ],
       reporters: ['html'],
       browsers: ['Chrome']

@@ -13,15 +13,20 @@ const templateCache = require('gulp-angular-templatecache');
 const sourcemaps = require('gulp-sourcemaps');
 //const uglify = require('gulp-uglify');
 const creanCSS = require('gulp-clean-css');
-const jshint = require('gulp-jshint');
-const jscs = require('gulp-jscs');
+//const jshint = require('gulp-jshint');
+//const jscs = require('gulp-jscs');
 const concatCSS = require('gulp-concat-css');
 const karma = require('karma').Server;
 const jasmine = require('gulp-jasmine');
+const stylish = require('gulp-jscs-stylish');
 const $ = require('gulp-load-plugins')();
-//const ngAnnotate = require('gulp-ng-annotate');
 
-gulp.task('lint', vet);
+//const ngAnnotate = require('gulp-ng-annotate');
+gulp.task('jscs', jscsLint);
+
+gulp.task('jshint', jshintLint);
+
+gulp.task('lint', ['jscs', 'jshint']);
 
 gulp.task('lrServer', lrServer);
 
@@ -56,7 +61,7 @@ gulp.task('test',['unitTestCi', 'e2e']);
 ///////////////////////////////
 
 function bundle(){
-    const src = './app/src/script/app.js';
+    const src = 'src/script/app.js';
     
     return browserify(src)
     .transform(babelify)
@@ -66,7 +71,7 @@ function bundle(){
 }
 
 function templates(){
-    const src = 'app/src/template/**/*.html';
+    const src = 'src/template/**/*.html';
     
     return gulp.src(src)
     .pipe(templateCache({module: 'templatesCache', standalone:true}))
@@ -90,13 +95,29 @@ function injectDeps(){
 }
 
 function vet(){
-    const src = ['./app/src/script/**/*.js', './*.js'];
+    const src = ['./src/script/**/*.js', './*.js'];
     return gulp
         .src(src)
         .pipe($.jscs())
         .pipe($.jshint())
+        .pipe(stylish())
         .pipe($.jshint.reporter('jshint-stylish', {verbose: true}))
         .pipe($.jshint.reporter('fail'));
+}
+
+function jscsLint(){
+    const src = ['./src/script/**/*.js', './*.js', './tests/**/*.js'];
+    return gulp.src(src)
+    .pipe($.jscs())
+    .pipe(stylish());
+}
+
+function jshintLint(){
+    const src = ['./src/script/**/*.js', './*.js', './tests/**/*.js'];
+    return gulp.src(src)
+    .pipe($.jshint())
+    .pipe($.jshint.reporter('jshint-stylish', {verbose: true}))
+    .pipe($.jshint.reporter('fail'));
 }
 
 function prettify() {
@@ -120,27 +141,26 @@ function lrServer() {
 }
 
 function sassCompose(){
-    return gulp.src('./app/src/style/**/*.scss')
+    return gulp.src('./src/style/**/*.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./app/src/style'));
+    .pipe(gulp.dest('./src/style'));
 }
 
 function run(){
-    gulp.watch('./app/src/**/*', function(event) {  
+    gulp.watch('./src/**/*', function(event) {  
         gulp.run('build');
     });
 }
 
 function getServer(done, singleRun){
     return new karma({
-        configFile: __dirname + '/app/tests/karma.conf.js',
+        configFile: __dirname + '/tests/karma.conf.js',
         singleRun: singleRun
     }, done);
 }
 
 function unitTestCi(done) {
     return getServer(done, true).start();
-    
 }
 
 
@@ -154,7 +174,7 @@ function unitTestWatch(done) {
 
 
 function bundleCSS() {
-    const src = ['./app/src/style/**/*.css', 
+    const src = ['./src/style/**/*.css', 
                  './node_modules/angular-material/angular-material.min.css',
                  './node_modules/bootstrap/dist/css/bootstrap.min.css'];
     return gulp.src(src)

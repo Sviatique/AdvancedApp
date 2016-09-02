@@ -8,7 +8,7 @@ module.exports = function(config) {
         '../node_modules/angular-mocks/angular-mocks.js',
         'unit/**/*.js'
     ],
-      reporters: ['html'],
-      browsers: ['Chrome', 'PhantomJS']
+      reporters: ['html', 'progress'],
+      browsers: ['PhantomJS']
   });
 };

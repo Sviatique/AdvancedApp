@@ -1,4 +1,3 @@
-
 <md-dialog aria-label="Creating account" style="min-width: 40%">
     <form name="newAccForm" ng-submit="vm.submit()" ng-cloak>
         <md-toolbar>
@@ -10,23 +9,23 @@
             <div class="md-dialog-content">
                 <div id="newAcc">
                     <label>Name:</label>
-                    <input type="text" ng-minlength="3" ng-maxlength="18" ng-model="vm.name" name="name" required> 
-                    
+                    <input type="text" ng-minlength="3" ng-maxlength="18" ng-model="vm.name" name="name" required>
+
                     <label>Age:</label>
-                    <input type="number" ng-required="integer" ng-min="18" ng-max="100" ng-model="vm.age" name="age"> 
-                    
+                    <input type="number" ng-required="integer" ng-min="18" ng-max="100" ng-model="vm.age" name="age">
+
                     <label>Gender:</label>
-                    <select ng-model="vm.gender" ng-options="gender for gender in vm.genderSelect"></select> 
-                    
+                    <select ng-model="vm.gender" ng-options="gender for gender in vm.genderSelect"></select>
+
                     <label>Phone number:</label>
-                    <input type="text" ng-pattern="vm.phonePattern" ng-model="vm.phone" name="phone" required> 
-                    
-                    <label>Email:</label> 
-                    <input type="text" ng-pattern="vm.emailPattern" ng-model="vm.email" name="email" required> 
-                    
+                    <input type="text" ng-pattern="vm.phonePattern" ng-model="vm.phone" name="phone" required>
+
+                    <label>Email:</label>
+                    <input type="text" ng-pattern="vm.emailPattern" ng-model="vm.email" name="email" required>
+
                     <label>Login:</label>
                     <input type="text" ng-minlength="5" ng-maxlength="15" ng-model="vm.login" name="login" required>
-                    
+
                     <div class="messages">
                         <div ng-show="newAccForm.name.$dirty && newAccForm.name.$invalid">
                             Name must be from 3 to 18 characters
@@ -51,7 +50,6 @@
         </md-dialog-content>
 
         <md-dialog-actions layout="row">
-            <span flex></span>
             <md-button type="submit">
                 {{vm.mode}}
             </md-button>

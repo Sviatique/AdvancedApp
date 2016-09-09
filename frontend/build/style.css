@@ -16,13 +16,8 @@
   border: none;
 }
 
-.ng-cloak {
+[ng-cloak] {
   display: none !important;
-}
-
-.panel,
-.panel-group .panel-heading + .panel-collapse > .panel-body {
-  border: none;
 }
 
 md-button {
@@ -43,11 +38,12 @@ input.ng-invalid.ng-dirty {
   background-color: pink;
 }
 
-.activity {
-  background-color: antiquewhite;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 6px;
+#activityChart {
+  max-height: 500px;
+}
+
+a > div.row {
+  margin-left: 0px;
 }
 /*!
  * Angular Material Design
@@ -23333,8 +23329,8 @@ th {
 
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url("../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.eot");
-  src: url("../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.eot?#iefix") format('embedded-opentype'),url("../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2") format('woff2'),url("../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff") format('woff'),url("../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf") format('truetype'),url("../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format('svg');
+  src: url("../../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.eot");
+  src: url("../../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.eot?#iefix") format('embedded-opentype'),url("../../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2") format('woff2'),url("../../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff") format('woff'),url("../../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf") format('truetype'),url("../../node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format('svg');
 }
 
 .glyphicon {

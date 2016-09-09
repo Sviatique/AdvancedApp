@@ -11,16 +11,22 @@ const inject = require('gulp-inject');
 const sass = require('gulp-sass');
 const templateCache = require('gulp-angular-templatecache');
 const sourcemaps = require('gulp-sourcemaps');
-const uglify = require('gulp-uglify');
+//const uglify = require('gulp-uglify');
 const creanCSS = require('gulp-clean-css');
-const jshint = require('gulp-jshint');
-const jscs = require('gulp-jscs');
+//const jshint = require('gulp-jshint');
+//const jscs = require('gulp-jscs');
 const concatCSS = require('gulp-concat-css');
 const karma = require('karma').Server;
 const jasmine = require('gulp-jasmine');
-//const ngAnnotate = require('gulp-ng-annotate');
+const stylish = require('gulp-jscs-stylish');
+const $ = require('gulp-load-plugins')();
 
-gulp.task('vet', vet);
+//const ngAnnotate = require('gulp-ng-annotate');
+gulp.task('jscs', jscsLint);
+
+gulp.task('jshint', jshintLint);
+
+gulp.task('lint', ['jscs', 'jshint']);
 
 gulp.task('lrServer', lrServer);
 
@@ -36,13 +42,13 @@ gulp.task('templates', templates);
 
 gulp.task('injectDeps', ['concatCSS','templates'], injectDeps);
 
-gulp.task('build',['minifyJS', 'injectDeps']);
-
 gulp.task('sass', sassCompose);
+
+gulp.task('build',['sass', 'minifyJS', 'injectDeps']);
 
 gulp.task('prettify', prettify );
 
-gulp.task('run',['lr-server', 'build', 'sass', 'inject'], run );
+gulp.task('run',['lrServer', 'build', 'sass', 'injectDeps'], run );
 
 gulp.task('unitTestCi', unitTestCi);
 
@@ -55,7 +61,7 @@ gulp.task('test',['unitTestCi', 'e2e']);
 ///////////////////////////////
 
 function bundle(){
-    const src = './app/script/app.js';
+    const src = 'src/script/app.js';
     
     return browserify(src)
     .transform(babelify)
@@ -65,7 +71,7 @@ function bundle(){
 }
 
 function templates(){
-    const src = 'app/template/**/*.html';
+    const src = 'src/template/**/*.html';
     
     return gulp.src(src)
     .pipe(templateCache({module: 'templatesCache', standalone:true}))
@@ -76,7 +82,7 @@ function minifyJS(){
     const src = './build/**/*.js';
     
     return gulp.src(src)
-    .pipe(uglify('index.min.js'))
+    .pipe($.uglify('index.min.js'))
     .pipe(gulp.dest('./dist'));
 }
 
@@ -89,14 +95,29 @@ function injectDeps(){
 }
 
 function vet(){
-    const src = ['./app/script/**/*.js', './*.js'];
-    
+    const src = ['./src/script/**/*.js', './*.js'];
     return gulp
         .src(src)
-        .pipe(jscs())
-        .pipe(jshint())
-        .pipe(jshint.reporter('jshint-stylish', {verbose: true}))
-        .pipe(jshint.reporter('fail'));
+        .pipe($.jscs())
+        .pipe($.jshint())
+        .pipe(stylish())
+        .pipe($.jshint.reporter('jshint-stylish', {verbose: true}))
+        .pipe($.jshint.reporter('fail'));
+}
+
+function jscsLint(){
+    const src = ['./src/script/**/*.js', './*.js', './tests/**/*.js'];
+    return gulp.src(src)
+    .pipe($.jscs())
+    .pipe(stylish());
+}
+
+function jshintLint(){
+    const src = ['./src/script/**/*.js', './*.js', './tests/**/*.js'];
+    return gulp.src(src)
+    .pipe($.jshint())
+    .pipe($.jshint.reporter('jshint-stylish', {verbose: true}))
+    .pipe($.jshint.reporter('fail'));
 }
 
 function prettify() {
@@ -120,27 +141,26 @@ function lrServer() {
 }
 
 function sassCompose(){
-    return gulp.src('./app/style/**/*.scss')
+    return gulp.src('./src/style/**/*.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./build'));
+    .pipe(gulp.dest('./src/style'));
 }
 
 function run(){
-    gulp.watch('./app/**/*', function(event) {  
+    gulp.watch('./src/**/*', function(event) {  
         gulp.run('build');
     });
 }
 
 function getServer(done, singleRun){
     return new karma({
-        configFile: __dirname + '/karma.conf.js',
+        configFile: __dirname + '/tests/karma.conf.js',
         singleRun: singleRun
     }, done);
 }
 
 function unitTestCi(done) {
     return getServer(done, true).start();
-    
 }
 
 
@@ -154,7 +174,7 @@ function unitTestWatch(done) {
 
 
 function bundleCSS() {
-    const src = ['./build/style.css', 
+    const src = ['./src/style/**/*.css', 
                  './node_modules/angular-material/angular-material.min.css',
                  './node_modules/bootstrap/dist/css/bootstrap.min.css'];
     return gulp.src(src)

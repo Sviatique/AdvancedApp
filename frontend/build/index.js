@@ -1,291 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
-
-var _account = require('./controller/account.ctrl');
-
-var _account2 = _interopRequireDefault(_account);
-
-var _account3 = require('./service/account.srv');
-
-var _account4 = _interopRequireDefault(_account3);
-
-var _dialog = require('./service/dialog.srv');
-
-var _dialog2 = _interopRequireDefault(_dialog);
-
-var _dialog3 = require('./controller/dialog.ctrl');
-
-var _dialog4 = _interopRequireDefault(_dialog3);
-
-var _info = require('./controller/info.ctrl');
-
-var _info2 = _interopRequireDefault(_info);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var angular = require('angular');
-require('angular-ui-bootstrap');
-require('angular-material');
-require('angular-ui-router');
-
-var backendUrl = 'http://localhost:1337/Account';
-
-var app = angular.module('app', ['ui.bootstrap', 'ngMaterial', 'ui.router', 'templatesCache']);
-app.constant('backendUrl', backendUrl);
-
-var routing = function routing($urlRouterProvider, $stateProvider) {
-    $urlRouterProvider.otherwise('/');
-    $stateProvider.state('index', {
-        url: '/',
-        controller: 'accountController as vm',
-        templateUrl: 'accountList.tmpl.html'
-    }).state('extra', {
-        url: '/accounts/:id',
-        controller: 'infoController as vm',
-        templateUrl: 'accountInfo.tmpl.html'
-    });
-};
-
-routing.$inject = ['$urlRouterProvider', '$stateProvider'];
-app.config(routing);
-
-app.service('accountService', _account4.default);
-app.service('dialogService', _dialog2.default);
-app.controller('accountController', _account2.default);
-app.controller('dialogController', _dialog4.default);
-app.controller('infoController', _info2.default);
-
-},{"./controller/account.ctrl":2,"./controller/dialog.ctrl":3,"./controller/info.ctrl":4,"./service/account.srv":5,"./service/dialog.srv":6,"angular":17,"angular-material":12,"angular-ui-bootstrap":14,"angular-ui-router":15}],2:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var accountController = function accountController($mdDialog, $stateParams, accountService, dialogService) {
-    var vm = this;
-
-    accountService.getAccounts().then(function (response) {
-        vm.accounts = response.data;
-    });
-
-    this.newAccount = function (event) {
-        dialogService.getAccountDialog(event, {}, 'Create').then(function (data) {
-            return accountService.updateAccount(data);
-        }).then(function () {
-            return accountService.getAccounts();
-        }).then(function (response) {
-            vm.accounts = response.data;
-        }).catch(function () {
-            console.log('You cancelled the dialog.');
-        });
-    };
-};
-
-accountController.$inject = ['$mdDialog', '$stateParams', 'accountService', 'dialogService'];
-
-exports.default = accountController;
-
-},{}],3:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var phonePattern = '[+]380[(]\\d{2}[)]\\d{3}[-]\\d{2}[-]\\d{2}';
-var emailPattern = '[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}@[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}[\\.][a-zA-Z]{2,3}';
-
-var dialogController = function dialogController($mdDialog, accData, mode) {
-    var vm = this;
-
-    vm.name = accData.name || '';
-    vm.age = accData.age || 18;
-    vm.gender = accData.gender || 'male';
-    vm.genderSelect = ['male', 'female'];
-
-    vm.phone = accData.phoneNumber || '';
-    vm.email = accData.email || '';
-    vm.login = accData.login || '';
-    vm.phonePattern = phonePattern;
-    vm.emailPattern = emailPattern;
-    vm.mode = mode + ' account';
-
-    vm.submit = function () {
-        var data = {
-            name: vm.name,
-            login: vm.login,
-            age: vm.age,
-            gender: vm.gender,
-            phoneNumber: vm.phone,
-            email: vm.email
-        };
-        $mdDialog.hide(data);
-    };
-
-    vm.cancel = function () {
-        $mdDialog.cancel();
-    };
-};
-
-dialogController.$inject = ['$mdDialog', 'accData', 'mode'];
-
-exports.default = dialogController;
-
-},{}],4:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _highcharts = require('highcharts');
-
-var _highcharts2 = _interopRequireDefault(_highcharts);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var infoController = function infoController($mdDialog, $state, $stateParams, accountService, dialogService) {
-    var vm = this;
-
-    accountService.getAccountById($stateParams.id).then(function (response) {
-        vm.person = response.data;
-        var date = [];
-        var actions = [];
-        var dateInstance = void 0;
-
-        vm.person.activities.map(function (value) {
-            dateInstance = new Date(value.date);
-            actions.push(value.amountOfActions);
-
-            date.push(dateInstance.getDate() + '/' + dateInstance.getMonth());
-        });
-
-        _highcharts2.default.chart('activityChart', {
-            title: {
-                text: 'Activities',
-                x: -20
-            },
-            xAxis: {
-                title: {
-                    text: 'Date'
-                },
-                categories: date
-            },
-            yAxis: {
-                title: {
-                    text: 'Number of actions'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle',
-                borderWidth: 0
-            },
-            series: [{
-                name: 'User activity',
-                data: actions
-            }]
-        });
-    });
-
-    vm.modifyAccount = function (event) {
-        dialogService.getAccountDialog(event, vm.person, 'Edit').then(function (response) {
-            return accountService.updateAccount(response, $stateParams.id);
-        }).then(function (response) {
-            vm.person = response;
-        }).catch(function () {
-            console.log('You cancelled the dialog.');
-        });
-    };
-
-    vm.deleteAccount = function (event) {
-        var confirm = $mdDialog.confirm().title('Deleting account').textContent('Do you really want to delete vm account?').ariaLabel('Deleting').targetEvent(event).ok('Do it!').cancel('Nope');
-
-        $mdDialog.show(confirm).then(function () {
-            return accountService.deleteAccount($stateParams.id);
-        }).then(function () {
-            $state.go('index');
-        }).catch(function () {
-            console.log('Error when deleting account');
-        });
-    };
-};
-
-infoController.$inject = ['$mdDialog', '$state', '$stateParams', 'accountService', 'dialogService'];
-
-exports.default = infoController;
-
-},{"highcharts":18}],5:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var accountService = function accountService($http, backendUrl) {
-
-    this.getAccountById = function (id) {
-        return $http.get(backendUrl + '/' + id);
-    };
-
-    this.getAccounts = function () {
-        return $http.get(backendUrl);
-    };
-
-    this.updateAccount = function (data, id) {
-        if (id) {
-            return $http.put(backendUrl + '/' + id, data);
-        } else {
-            return $http.post(backendUrl, data);
-        }
-    };
-
-    this.deleteAccount = function (id) {
-        return $http.delete(backendUrl + '/' + id);
-    };
-};
-
-accountService.$inject = ['$http', 'backendUrl'];
-
-exports.default = accountService;
-
-},{}],6:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _dialog = require('../controller/dialog.ctrl');
-
-var _dialog2 = _interopRequireDefault(_dialog);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var dialogService = function dialogService($mdDialog) {
-    this.getAccountDialog = function (event, accData, mode) {
-        return $mdDialog.show({
-            controller: 'dialogController as vm',
-            targetEvent: event,
-            templateUrl: 'accountEdit.tmpl.html',
-            locals: {
-                accData: accData,
-                mode: mode,
-                event: event
-            }
-        });
-    };
-};
-
-dialogService.$inject = ['$mdDialog'];
-
-exports.default = dialogService;
-
-},{"../controller/dialog.ctrl":3}],7:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -4426,11 +4139,11 @@ angular.module('ngAnimate', [], function initAngularHelpers() {
 
 })(window, window.angular);
 
-},{}],8:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":7}],9:[function(require,module,exports){
+},{"./angular-animate":1}],3:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -4837,11 +4550,11 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
 
 })(window, window.angular);
 
-},{}],10:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 require('./angular-aria');
 module.exports = 'ngAria';
 
-},{"./angular-aria":9}],11:[function(require,module,exports){
+},{"./angular-aria":3}],5:[function(require,module,exports){
 /*!
  * Angular Material Design
  * https://github.com/angular/material
@@ -37117,7 +36830,7 @@ angular.module("material.core").constant("$MD_THEME_CSS", "md-autocomplete.md-TH
 
 
 })(window, window.angular);;window.ngMaterial={version:{full: "1.1.0"}};
-},{}],12:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 // Should already be required, here for clarity
 require('angular');
 
@@ -37131,7 +36844,7 @@ require('./angular-material');
 // Export namespace
 module.exports = 'ngMaterial';
 
-},{"./angular-material":11,"angular":17,"angular-animate":8,"angular-aria":10}],13:[function(require,module,exports){
+},{"./angular-material":5,"angular":11,"angular-animate":2,"angular-aria":4}],7:[function(require,module,exports){
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
@@ -44668,12 +44381,12 @@ angular.module('ui.bootstrap.datepickerPopup').run(function() {!angular.$$csp().
 angular.module('ui.bootstrap.tooltip').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTooltipCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-tooltip-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-bottom > .tooltip-arrow,[uib-popover-popup].popover.top-left > .arrow,[uib-popover-popup].popover.top-right > .arrow,[uib-popover-popup].popover.bottom-left > .arrow,[uib-popover-popup].popover.bottom-right > .arrow,[uib-popover-popup].popover.left-top > .arrow,[uib-popover-popup].popover.left-bottom > .arrow,[uib-popover-popup].popover.right-top > .arrow,[uib-popover-popup].popover.right-bottom > .arrow,[uib-popover-html-popup].popover.top-left > .arrow,[uib-popover-html-popup].popover.top-right > .arrow,[uib-popover-html-popup].popover.bottom-left > .arrow,[uib-popover-html-popup].popover.bottom-right > .arrow,[uib-popover-html-popup].popover.left-top > .arrow,[uib-popover-html-popup].popover.left-bottom > .arrow,[uib-popover-html-popup].popover.right-top > .arrow,[uib-popover-html-popup].popover.right-bottom > .arrow,[uib-popover-template-popup].popover.top-left > .arrow,[uib-popover-template-popup].popover.top-right > .arrow,[uib-popover-template-popup].popover.bottom-left > .arrow,[uib-popover-template-popup].popover.bottom-right > .arrow,[uib-popover-template-popup].popover.left-top > .arrow,[uib-popover-template-popup].popover.left-bottom > .arrow,[uib-popover-template-popup].popover.right-top > .arrow,[uib-popover-template-popup].popover.right-bottom > .arrow{top:auto;bottom:auto;left:auto;right:auto;margin:0;}[uib-popover-popup].popover,[uib-popover-html-popup].popover,[uib-popover-template-popup].popover{display:block !important;}</style>'); angular.$$uibTooltipCss = true; });
 angular.module('ui.bootstrap.timepicker').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTimepickerCss && angular.element(document).find('head').prepend('<style type="text/css">.uib-time input{width:50px;}</style>'); angular.$$uibTimepickerCss = true; });
 angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTypeaheadCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-typeahead-popup].dropdown-menu{display:block;}</style>'); angular.$$uibTypeaheadCss = true; });
-},{}],14:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 require('./dist/ui-bootstrap-tpls');
 
 module.exports = 'ui.bootstrap';
 
-},{"./dist/ui-bootstrap-tpls":13}],15:[function(require,module,exports){
+},{"./dist/ui-bootstrap-tpls":7}],9:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.3.1
@@ -49250,7 +48963,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],16:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.8
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -81019,11 +80732,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],17:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":16}],18:[function(require,module,exports){
+},{"./angular":10}],12:[function(require,module,exports){
 /*
  Highcharts JS v4.2.6 (2016-08-02)
 
@@ -81370,4 +81083,290 @@ c.hide();this.setState()},setState:function(a){var b=this.options,c=this.graph,d
 a=a===A?!this.selected:a;if(this.checkbox)this.checkbox.checked=a;I(this,a?"select":"unselect")},drawTracker:ha.drawTrackerGraph});x(u,{Color:na,Point:Ma,Tick:Xa,Renderer:eb,SVGElement:O,SVGRenderer:Ea,arrayMin:Oa,arrayMax:Ha,charts:T,correctFloat:aa,dateFormat:Sa,error:ca,format:Na,pathAnim:void 0,getOptions:function(){return U},hasBidiBug:Rb,isTouchDevice:Nb,setOptions:function(a){U=E(!0,U,a);Gb();return U},addEvent:N,removeEvent:Y,createElement:da,discardElement:Ua,css:M,each:q,map:Da,merge:E,
 splat:ua,stableSort:jb,extendClass:sa,pInt:B,svg:ga,canvas:la,vml:!ga&&!la,product:"Highcharts",version:"4.2.6"});return u});
 
-},{}]},{},[1]);
+},{}],13:[function(require,module,exports){
+'use strict';
+
+var _account = require('./controller/account.ctrl');
+
+var _account2 = _interopRequireDefault(_account);
+
+var _account3 = require('./service/account.srv');
+
+var _account4 = _interopRequireDefault(_account3);
+
+var _dialog = require('./service/dialog.srv');
+
+var _dialog2 = _interopRequireDefault(_dialog);
+
+var _dialog3 = require('./controller/dialog.ctrl');
+
+var _dialog4 = _interopRequireDefault(_dialog3);
+
+var _info = require('./controller/info.ctrl');
+
+var _info2 = _interopRequireDefault(_info);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var angular = require('angular');
+require('angular-ui-bootstrap');
+require('angular-material');
+require('angular-ui-router');
+
+var backendUrl = 'http://localhost:1337/Account';
+
+var app = angular.module('app', ['ui.bootstrap', 'ngMaterial', 'ui.router', 'templatesCache']);
+app.constant('backendUrl', backendUrl);
+
+var routing = function routing($urlRouterProvider, $stateProvider) {
+    $urlRouterProvider.otherwise('/');
+    $stateProvider.state('index', {
+        url: '/',
+        controller: 'accountController as vm',
+        templateUrl: 'accountList.tmpl.html'
+    }).state('extra', {
+        url: '/accounts/:id',
+        controller: 'infoController as vm',
+        templateUrl: 'accountInfo.tmpl.html'
+    });
+};
+
+routing.$inject = ['$urlRouterProvider', '$stateProvider'];
+app.config(routing);
+
+app.service('accountService', _account4.default);
+app.service('dialogService', _dialog2.default);
+app.controller('accountController', _account2.default);
+app.controller('dialogController', _dialog4.default);
+app.controller('infoController', _info2.default);
+
+},{"./controller/account.ctrl":14,"./controller/dialog.ctrl":15,"./controller/info.ctrl":16,"./service/account.srv":17,"./service/dialog.srv":18,"angular":11,"angular-material":6,"angular-ui-bootstrap":8,"angular-ui-router":9}],14:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var accountController = function accountController($mdDialog, $stateParams, accountService, dialogService) {
+    var vm = this;
+    accountService.getAccounts().then(function (response) {
+        vm.accounts = response.data;
+    });
+
+    this.newAccount = function (event) {
+        dialogService.getAccountDialog(event, {}, 'Create').then(function (data) {
+            return accountService.updateAccount(data);
+        }).then(function () {
+            return accountService.getAccounts();
+        }).then(function (response) {
+            vm.accounts = response.data;
+        }).catch(function () {
+            console.log('You cancelled the dialog.');
+        });
+    };
+};
+
+accountController.$inject = ['$mdDialog', '$stateParams', 'accountService', 'dialogService'];
+
+exports.default = accountController;
+
+},{}],15:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var phonePattern = '[+]380[(]\\d{2}[)]\\d{3}[-]\\d{2}[-]\\d{2}';
+var emailPattern = '[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}@[a-zA-Z]{1}[\\w\\.]*[a-zA-Z]{1}[\\.][a-zA-Z]{2,3}';
+
+var dialogController = function dialogController($mdDialog, accData, mode) {
+    var vm = this;
+
+    vm.name = accData.name || '';
+    vm.age = accData.age || 18;
+    vm.gender = accData.gender || 'male';
+    vm.genderSelect = ['male', 'female'];
+
+    vm.phone = accData.phoneNumber || '';
+    vm.email = accData.email || '';
+    vm.login = accData.login || '';
+    vm.phonePattern = phonePattern;
+    vm.emailPattern = emailPattern;
+    vm.mode = mode + ' account';
+
+    vm.submit = function () {
+        var data = {
+            name: vm.name,
+            login: vm.login,
+            age: vm.age,
+            gender: vm.gender,
+            phoneNumber: vm.phone,
+            email: vm.email
+        };
+        $mdDialog.hide(data);
+    };
+
+    vm.cancel = function () {
+        $mdDialog.cancel();
+    };
+};
+
+dialogController.$inject = ['$mdDialog', 'accData', 'mode'];
+
+exports.default = dialogController;
+
+},{}],16:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _highcharts = require('highcharts');
+
+var _highcharts2 = _interopRequireDefault(_highcharts);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var infoController = function infoController($mdDialog, $state, $stateParams, accountService, dialogService) {
+    var vm = this;
+
+    accountService.getAccountById($stateParams.id).then(function (response) {
+        vm.person = response.data;
+        var date = [];
+        var actions = [];
+        var dateInstance = void 0;
+
+        vm.person.activities.map(function (value) {
+            dateInstance = new Date(value.date);
+            actions.push(value.amountOfActions);
+
+            date.push(dateInstance.getDate() + '/' + dateInstance.getMonth());
+        });
+
+        _highcharts2.default.chart('activityChart', {
+            title: {
+                text: 'Activities',
+                x: -20
+            },
+            xAxis: {
+                title: {
+                    text: 'Date'
+                },
+                categories: date
+            },
+            yAxis: {
+                title: {
+                    text: 'Number of actions'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: 'User activity',
+                data: actions
+            }]
+        });
+    });
+
+    vm.modifyAccount = function (event) {
+        dialogService.getAccountDialog(event, vm.person, 'Edit').then(function (response) {
+            return accountService.updateAccount(response, $stateParams.id);
+        }).then(function (response) {
+            vm.person = response;
+        }).catch(function () {
+            console.log('You cancelled the dialog.');
+        });
+    };
+
+    vm.deleteAccount = function (event) {
+        var confirm = $mdDialog.confirm().title('Deleting account').textContent('Do you really want to delete vm account?').ariaLabel('Deleting').targetEvent(event).ok('Do it!').cancel('Nope');
+
+        $mdDialog.show(confirm).then(function () {
+            return accountService.deleteAccount($stateParams.id);
+        }).then(function () {
+            $state.go('index');
+        }).catch(function () {
+            console.log('Error when deleting account');
+        });
+    };
+};
+
+infoController.$inject = ['$mdDialog', '$state', '$stateParams', 'accountService', 'dialogService'];
+
+exports.default = infoController;
+
+},{"highcharts":12}],17:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var accountService = function accountService($http, backendUrl) {
+
+    this.getAccountById = function (id) {
+        return $http.get(backendUrl + '/' + id);
+    };
+
+    this.getAccounts = function () {
+        return $http.get(backendUrl);
+    };
+
+    this.updateAccount = function (data, id) {
+        if (id) {
+            return $http.put(backendUrl + '/' + id, data);
+        } else {
+            return $http.post(backendUrl, data);
+        }
+    };
+
+    this.deleteAccount = function (id) {
+        return $http.delete(backendUrl + '/' + id);
+    };
+};
+
+accountService.$inject = ['$http', 'backendUrl'];
+
+exports.default = accountService;
+
+},{}],18:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _dialog = require('../controller/dialog.ctrl');
+
+var _dialog2 = _interopRequireDefault(_dialog);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var dialogService = function dialogService($mdDialog) {
+    this.getAccountDialog = function (event, accData, mode) {
+        return $mdDialog.show({
+            controller: 'dialogController as vm',
+            targetEvent: event,
+            templateUrl: 'accountEdit.tmpl.html',
+            locals: {
+                accData: accData,
+                mode: mode,
+                event: event
+            }
+        });
+    };
+};
+
+dialogService.$inject = ['$mdDialog'];
+
+exports.default = dialogService;
+
+},{"../controller/dialog.ctrl":15}]},{},[13]);
